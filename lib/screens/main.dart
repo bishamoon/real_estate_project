@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         scaffoldBackgroundColor: AppColors.backgroundColor,
       ),
-      home: HomeScreen(),
+      home: const HomeScreen(),
       routes: {
         '/SignInScreen': (context) => SignInScreen(),
         '/SignUpScreen': (context) => SignUpScreen(),
