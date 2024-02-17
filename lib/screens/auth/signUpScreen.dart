@@ -43,7 +43,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 const Padding(
                   padding: EdgeInsets.only(right: 16),
                   child: Text(
-                    'بيت الاحلام',
+                    'Real estate',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: AppColors.secondaryColor,

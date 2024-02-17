@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:real_estate/componets/appColors.dart';
 import 'package:real_estate/componets/widgets/defaultsearchField.dart';
-import 'package:real_estate/screens/apartmentsScreen.dart';
-
+import 'package:real_estate/screens/building/apartmentsScreen.dart';
 import '../../componets/widgets/card.dart';
 import '../../componets/widgets/categoryContainer.dart';
+import '../../componets/widgets/customNavBar.dart';
 import '../../componets/widgets/nearbyCard.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -34,10 +34,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Column(
+                    const Column(
                       children: [
                         Padding(
-                          padding: const EdgeInsets.only(right: 12.0),
+                          padding: EdgeInsets.only(right: 12.0),
                           child: Text(
                             'مرحبا ,',
                             textAlign: TextAlign.right,
@@ -51,7 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(right: 12.0),
+                          padding: EdgeInsets.only(right: 12.0),
                           child: Text(
                             'نور سعد',
                             textAlign: TextAlign.right,
@@ -71,7 +71,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: Container(
                         width: 50,
                         height: 50,
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           shape: BoxShape.circle,
                           image: DecorationImage(
                             fit: BoxFit.cover,
@@ -142,8 +142,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.only(right: 12, top: 4),
+                    const Padding(
+                      padding: EdgeInsets.only(right: 12, top: 4),
                       child: Text(
                         'المنازل المميزة',
                         textAlign: TextAlign.center,
@@ -207,8 +207,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.all(12.0),
+                    const Padding(
+                      padding: EdgeInsets.all(12.0),
                       child: Text(
                         'عقارات بالقرب منك',
                         textAlign: TextAlign.center,
@@ -261,57 +261,16 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 SizedBox(
-                  height: 200,
+                  height: 50,
                 )
               ],
             ),
           ),
         ),
-        bottomNavigationBar: BottomAppBar(
-          elevation: 0.0,
-          color: Colors.transparent,
-          child: ClipRRect(
-            borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(36), topRight: Radius.circular(36)),
-            child: Container(
-              height: 50,
-              color: Colors.green,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  IconButton(
-                    icon: Icon(Icons.person),
-                    onPressed: () {
-                      _onTabTapped(0);
-                    },
-                  ),
-                  IconButton(
-                    icon: Icon(Icons.favorite),
-                    onPressed: () {
-                      _onTabTapped(1);
-                    },
-                  ),
-                  SizedBox(width: 50.0),
-                  IconButton(
-                    icon: Icon(Icons.search),
-                    onPressed: () {
-                      _onTabTapped(2);
-                    },
-                  ),
-                  IconButton(
-                    icon: Icon(Icons.home),
-                    onPressed: () {
-                      _onTabTapped(3);
-                    },
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
+        bottomNavigationBar: CustomBottomNavigationBar(context:context),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         floatingActionButton: Container(
-          margin: const EdgeInsets.only(top: 50),
+          margin: const EdgeInsets.only(top: 45),
           height: 70,
           width: 70,
           child: FloatingActionButton(
@@ -320,9 +279,9 @@ class _HomeScreenState extends State<HomeScreen> {
             onPressed: () => debugPrint("Add Button pressed"),
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(100)),
-            child: const Icon(
-              Icons.add,
-              color: Colors.white,
+            child: GestureDetector(
+              child: Image.asset("assets/img/write.png"),
+              onTap: () {},
             ),
           ),
         ),
@@ -337,10 +296,10 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void navigateToCategoryPage(BuildContext context, String categoryText) {
-    if (categoryText == "شقة") {
+    if (categoryText == "منزل") {
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => ApartmentsScreen()));
-    } else if (categoryText == "منزل") {
+    } else if (categoryText == "شقة") {
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => ApartmentsScreen()));
     } else if (categoryText == "بناية") {

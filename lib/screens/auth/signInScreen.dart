@@ -41,7 +41,7 @@ class _SignInScreenState extends State<SignInScreen> {
                 Padding(
                   padding: EdgeInsets.only(right: 18, top: 14),
                   child: Text(
-                    'بيت الاحلام',
+                    'Real Estate',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: AppColors.secondaryColor,
