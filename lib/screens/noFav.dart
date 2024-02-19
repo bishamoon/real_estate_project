@@ -31,7 +31,7 @@ class NoFav extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar: CustomBottomNavigationBar(context: context),
+      // bottomNavigationBar: CustomBottomNavigationBar(context: context),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         floatingActionButton: Container(
           margin: EdgeInsets.only(top: 45),

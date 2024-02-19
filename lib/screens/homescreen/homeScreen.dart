@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:real_estate/componets/appColors.dart';
 import 'package:real_estate/componets/widgets/defaultsearchField.dart';
 import 'package:real_estate/screens/building/apartmentsScreen.dart';
+
 import '../../componets/widgets/card.dart';
 import '../../componets/widgets/categoryContainer.dart';
-import '../../componets/widgets/customNavBar.dart';
 import '../../componets/widgets/nearbyCard.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -28,7 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
             alignment: Alignment.topRight,
             child: Column(
               children: [
-                SizedBox(
+                const SizedBox(
                   height: 50,
                 ),
                 Row(
@@ -82,7 +81,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 15,
                 ),
                 defaultSearchField(
@@ -102,13 +101,15 @@ class _HomeScreenState extends State<HomeScreen> {
                     hintText: 'ابحث عن شقة , منزل',
                     controller: _searchController,
                     onChanged: (s) {},
-                    validator: (s) {}),
-                SizedBox(
+                    validator: (s) {
+                      return null;
+                    }),
+                const SizedBox(
                   height: 15,
                 ),
                 Padding(
                   padding: const EdgeInsets.only(right: 7),
-                  child: Container(
+                  child: SizedBox(
                     height: 50,
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
@@ -136,7 +137,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 Row(
@@ -182,12 +183,12 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 5,
                 ),
                 Padding(
                   padding: const EdgeInsets.only(right: 7),
-                  child: Container(
+                  child: SizedBox(
                     height: 260,
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
@@ -260,31 +261,31 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 50,
                 )
               ],
             ),
           ),
         ),
-        bottomNavigationBar: CustomBottomNavigationBar(context:context),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        floatingActionButton: Container(
-          margin: const EdgeInsets.only(top: 45),
-          height: 70,
-          width: 70,
-          child: FloatingActionButton(
-            backgroundColor: AppColors.primaryColor,
-            elevation: 0,
-            onPressed: () => debugPrint("Add Button pressed"),
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(100)),
-            child: GestureDetector(
-              child: Image.asset("assets/img/write.png"),
-              onTap: () {},
-            ),
-          ),
-        ),
+        // bottomNavigationBar: CustomBottomNavigationBar(context:context),
+        // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        // floatingActionButton: Container(
+        //   margin: const EdgeInsets.only(top: 45),
+        //   height: 70,
+        //   width: 70,
+        //   child: FloatingActionButton(
+        //     backgroundColor: AppColors.primaryColor,
+        //     elevation: 0,
+        //     onPressed: () => debugPrint("Add Button pressed"),
+        //     shape: RoundedRectangleBorder(
+        //         borderRadius: BorderRadius.circular(100)),
+        //     child: GestureDetector(
+        //       child: Image.asset("assets/img/write.png"),
+        //       onTap: () {},
+        //     ),
+        //   ),
+        // ),
       ),
     );
   }
@@ -297,23 +298,23 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void navigateToCategoryPage(BuildContext context, String categoryText) {
     if (categoryText == "منزل") {
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => ApartmentsScreen()));
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => const ApartmentsScreen()));
     } else if (categoryText == "شقة") {
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => ApartmentsScreen()));
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => const ApartmentsScreen()));
     } else if (categoryText == "بناية") {
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => ApartmentsScreen()));
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => const ApartmentsScreen()));
     } else if (categoryText == "ارض") {
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => ApartmentsScreen()));
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => const ApartmentsScreen()));
     } else if (categoryText == "متجر") {
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => ApartmentsScreen()));
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => const ApartmentsScreen()));
     } else if (categoryText == "مكتب") {
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => ApartmentsScreen()));
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => const ApartmentsScreen()));
     }
   }
 }
