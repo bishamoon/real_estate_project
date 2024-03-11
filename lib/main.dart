@@ -24,7 +24,11 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: AppColors.backgroundColor,
       ),
       home: const DashBoardScreen(),
+
+
       routes: {
+
+        '/SignInScreen2': (context) => const SignInScreen(),
         '/SignInScreen': (context) => const SignInScreen(),
         '/SignUpScreen': (context) => const SignUpScreen(),
         '/ForgetPassword': (context) => const ForgetPassword(),
