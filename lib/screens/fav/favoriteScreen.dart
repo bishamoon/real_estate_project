@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../componets/appColors.dart';
-import '../componets/widgets/nearbyCard2.dart';
+import '../../componets/appColors.dart';
+import '../../componets/widgets/nearbyCard2.dart';
 
 class FavoriteScreen extends StatefulWidget {
   const FavoriteScreen({Key? key}) : super(key: key);

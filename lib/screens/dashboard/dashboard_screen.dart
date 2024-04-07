@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:real_estate/componets/appColors.dart';
-import 'package:real_estate/screens/favoriteScreen.dart';
+import 'package:real_estate/screens/fav/favoriteScreen.dart';
 import 'package:real_estate/screens/homescreen/homeScreen.dart';
 import 'package:real_estate/screens/search/searchScreen.dart';
 

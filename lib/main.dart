@@ -8,7 +8,9 @@ import 'screens/addNewHouse/addnewHouse2.dart';
 import 'screens/auth/forgetpassword.dart';
 import 'screens/auth/signInScreen.dart';
 import 'screens/auth/signUpScreen.dart';
-import 'screens/favoriteScreen.dart';
+import 'screens/fav/favoriteScreen.dart';
+import 'screens/profile/editProfile.dart';
+import 'screens/profile/profile.dart';
 
 void main() {
   runApp(const MyApp());
@@ -25,7 +27,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         scaffoldBackgroundColor: AppColors.backgroundColor,
       ),
-      home: AddNewHouse2(),
+      home: EditProfile(),
       routes: {
         '/SignInScreen': (context) => const SignInScreen(),
         '/SignUpScreen': (context) => const SignUpScreen(),
