@@ -3,6 +3,7 @@ import 'package:real_estate/componets/appColors.dart';
 import 'package:real_estate/screens/dashboard/dashboard_screen.dart';
 import 'package:real_estate/screens/homescreen/homeScreen.dart';
 import 'screens/addNewHouse/addNewHouse.dart';
+import 'screens/addNewHouse/addNewHouse3.dart';
 import 'screens/addNewHouse/addnewHouse2.dart';
 import 'screens/auth/forgetpassword.dart';
 import 'screens/auth/signInScreen.dart';
@@ -24,7 +25,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         scaffoldBackgroundColor: AppColors.backgroundColor,
       ),
-      home: AddNewHouse2(),
+      home: AddNewHouse3(),
       routes: {
         '/SignInScreen': (context) => const SignInScreen(),
         '/SignUpScreen': (context) => const SignUpScreen(),
