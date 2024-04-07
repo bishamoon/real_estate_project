@@ -80,38 +80,54 @@ class AddNewHouse2 extends StatelessWidget {
               height: 490,
             ),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(
-                    left: 24,
+                Container(
+                  width: 122,
+                  height: 52,
+                  decoration: ShapeDecoration(
+                    color: AppColors.secondaryColor,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
                   ),
-                  child: Container(
-                    width: 122,
-                    height: 52,
-                    decoration: ShapeDecoration(
-                      color: AppColors.secondaryColor,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
+                  child: GestureDetector(
+                    onTap: () {},
+                    child: Center(
+                      child: Text(
+                        "التالي",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 17,
+                          fontFamily: 'Cairo',
+                          fontWeight: FontWeight.w700,
+                          height: 0,
+                        ),
                       ),
                     ),
-                    child: GestureDetector(
-                      onTap: () {},
-                      child: const Row(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Text(
-                            "التالي",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 15,
-                              fontFamily: 'Cairo',
-                              fontWeight: FontWeight.w700,
-                              height: 0,
-                            ),
-                          ),
-                        ],
+                  ),
+                ),
+                Container(
+                  width: 122,
+                  height: 52,
+                  decoration: ShapeDecoration(
+                    color: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
+                  child: GestureDetector(
+                    onTap: () {},
+                    child: Center(
+                      child: Text(
+                        "رجوع",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 17,
+                          fontFamily: 'Cairo',
+                          fontWeight: FontWeight.w700,
+                          height: 0,
+                        ),
                       ),
                     ),
                   ),
