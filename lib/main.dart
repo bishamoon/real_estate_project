@@ -12,6 +12,7 @@ import 'screens/auth/signUpScreen.dart';
 import 'screens/fav/favoriteScreen.dart';
 import 'screens/profile/editProfile.dart';
 import 'screens/profile/profile.dart';
+import 'screens/search/searchScreen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -28,7 +29,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         scaffoldBackgroundColor: AppColors.backgroundColor,
       ),
-      home: HouseDetails1(),
+      home: SearchScreen(),
       routes: {
         '/SignInScreen': (context) => const SignInScreen(),
         '/SignUpScreen': (context) => const SignUpScreen(),
