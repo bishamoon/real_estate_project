@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:real_estate/network/end_points.dart';
+import 'package:real_estate/network/http_helper.dart';
 import '../../componets/appColors.dart';
 import '../../componets/widgets/defaultTextField.dart';
+import "package:http/http.dart" as http;
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -14,6 +17,19 @@ class _SignInScreenState extends State<SignInScreen> {
   final TextEditingController _phoneNumberController = TextEditingController();
   final TextEditingController _password = TextEditingController();
   bool _obscureText = true;
+
+  signIn() async {
+    try {
+      final response =
+          await HttpHelper.postData(url: EndPoints.signInUrl, body: {
+        "phoneNumber": _phoneNumberController.text,
+        "password": _password.text,
+      });
+      print("response = $response");
+    } catch (e) {
+      print("error in sign in = $e");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -130,6 +146,9 @@ class _SignInScreenState extends State<SignInScreen> {
                   child: GestureDetector(
                     onTap: () {
                       // open the account
+                      setState(() {
+                        signIn();
+                      });
                     },
                     child: Container(
                       width: 380,

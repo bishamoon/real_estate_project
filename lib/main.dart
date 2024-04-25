@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:real_estate/componets/appColors.dart';
+import 'package:real_estate/network/shared_helper.dart';
 import 'package:real_estate/screens/dashboard/dashboard_screen.dart';
 import 'package:real_estate/screens/homescreen/homeScreen.dart';
 import 'package:real_estate/screens/houseDetails/houseDetails1.dart';
@@ -14,7 +15,9 @@ import 'screens/profile/editProfile.dart';
 import 'screens/profile/profile.dart';
 import 'screens/search/searchScreen.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await SharedHelper.init();
   runApp(const MyApp());
 }
 
