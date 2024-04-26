@@ -27,18 +27,21 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    final isLoggedIn = SharedHelper.getData(key: "token");
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         scaffoldBackgroundColor: AppColors.backgroundColor,
       ),
-      home: SearchScreen(),
+      // home: isLoggedIn != null ? DashBoardScreen() : SignInScreen(),
+      home: SignInScreen(),
       routes: {
         '/SignInScreen': (context) => const SignInScreen(),
         '/SignUpScreen': (context) => const SignUpScreen(),
         '/ForgetPassword': (context) => const ForgetPassword(),
         '/HomeScreen': (context) => const HomeScreen(),
         '/FavoriteScreen': (context) => const FavoriteScreen(),
+        "/dashBoard": (context) => DashBoardScreen(),
       },
     );
   }

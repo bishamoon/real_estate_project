@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:real_estate/models/signinUser_model.dart';
 import 'package:real_estate/network/end_points.dart';
 import 'package:real_estate/network/http_helper.dart';
+import 'package:real_estate/network/shared_helper.dart';
 import '../../componets/appColors.dart';
 import '../../componets/widgets/defaultTextField.dart';
 import "package:http/http.dart" as http;
@@ -14,21 +16,48 @@ class SignInScreen extends StatefulWidget {
 }
 
 class _SignInScreenState extends State<SignInScreen> {
-  final TextEditingController _phoneNumberController = TextEditingController();
-  final TextEditingController _password = TextEditingController();
+  final TextEditingController _phoneNumberController =
+      TextEditingController(text: "+9647710326414");
+  final TextEditingController _password =
+      TextEditingController(text: "123456789");
   bool _obscureText = true;
+  bool _isLoading = false;
 
   signIn() async {
     try {
+      setState(() {
+        _isLoading = true;
+      });
       final response =
           await HttpHelper.postData(url: EndPoints.signInUrl, body: {
         "phoneNumber": _phoneNumberController.text,
         "password": _password.text,
       });
-      print("response = $response");
+
+      if (response["success"]) {
+        final data = SignInModel.fromJson(response);
+
+        await SharedHelper.saveData(key: "token", value: data.data.accessToken);
+        if (context.mounted) {
+          Navigator.pushNamed(context, "/dashBoard");
+        }
+        _isLoading = false;
+      } else {
+        _isLoading = false;
+        showError(response["message"]);
+      }
     } catch (e) {
+      _isLoading = false;
       print("error in sign in = $e");
     }
+    setState(() {});
+  }
+
+  showError(String error) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(error),
+      duration: const Duration(seconds: 1),
+    ));
   }
 
   @override
@@ -40,12 +69,6 @@ class _SignInScreenState extends State<SignInScreen> {
           backgroundColor:
               Colors.transparent, // Set the background color to transparent
           elevation: 0, // Remove the shadow
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
         ),
         body: SingleChildScrollView(
           child: Align(
@@ -142,45 +165,47 @@ class _SignInScreenState extends State<SignInScreen> {
                 SizedBox(
                   height: 30,
                 ),
-                Center(
-                  child: GestureDetector(
-                    onTap: () {
-                      // open the account
-                      setState(() {
-                        signIn();
-                      });
-                    },
-                    child: Container(
-                      width: 380,
-                      height: 60,
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 46, vertical: 16),
-                      decoration: ShapeDecoration(
-                        color: AppColors.secondaryColor,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(5)),
-                      ),
-                      child: const Row(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Text(
-                            'تسجيل الدخول',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 15,
-                              fontFamily: 'Cairo',
-                              fontWeight: FontWeight.w800,
-                              height: 0,
+                _isLoading
+                    ? Center(child: CircularProgressIndicator())
+                    : Center(
+                        child: GestureDetector(
+                          onTap: () {
+                            // open the account
+                            setState(() {
+                              signIn();
+                            });
+                          },
+                          child: Container(
+                            width: 380,
+                            height: 60,
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 46, vertical: 16),
+                            decoration: ShapeDecoration(
+                              color: AppColors.secondaryColor,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5)),
+                            ),
+                            child: const Row(
+                              mainAxisSize: MainAxisSize.min,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'تسجيل الدخول',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 15,
+                                    fontFamily: 'Cairo',
+                                    fontWeight: FontWeight.w800,
+                                    height: 0,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
-                        ],
+                        ),
                       ),
-                    ),
-                  ),
-                ),
                 SizedBox(
                   height: 15,
                 ),
