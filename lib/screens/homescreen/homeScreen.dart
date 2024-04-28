@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:real_estate/componets/widgets/defaultsearchField.dart';
+import 'package:real_estate/models/allBuildingModel.dart';
+import 'package:real_estate/network/end_points.dart';
+import 'package:real_estate/network/http_helper.dart';
 import 'package:real_estate/screens/building/apartmentsScreen.dart';
-
+import 'package:http/http.dart' as http; // Import the http package
 import '../../componets/widgets/card.dart';
 import '../../componets/widgets/categoryContainer.dart';
 import '../../componets/widgets/nearbyCard.dart';
@@ -16,6 +19,28 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final TextEditingController _searchController = TextEditingController();
   int _currentIndex = 0;
+  List<Datum> _allBuildengs = [];
+  bool _isLoadingALlBuildings = false;
+
+  @override
+  void initState() {
+    getAllBuildings();
+    super.initState();
+  }
+
+  getAllBuildings() async {
+    setState(() {
+      _isLoadingALlBuildings = true;
+    });
+    final response = await HttpHelper.getData(url: EndPoints.allBuilding);
+    if (response['success']) {
+      final model = AllBuildingModel.fromJson(response);
+      _allBuildengs.addAll(model.data);
+    }
+    _isLoadingALlBuildings = false;
+
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -186,25 +211,32 @@ class _HomeScreenState extends State<HomeScreen> {
                 const SizedBox(
                   height: 5,
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(right: 7),
-                  child: SizedBox(
-                    height: 260,
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: 6,
-                      itemBuilder: (BuildContext context, int index) {
-                        return SpacialCard(
-                          houseName: 'منزل افتراضي',
-                          area: 150,
-                          imgUrl: "assets/img/houseimg.png",
-                          location: 'بغداد , المنصور',
-                          price: 1140,
-                        );
-                      },
-                    ),
-                  ),
-                ),
+                _isLoadingALlBuildings
+                    ? const Center(child: CircularProgressIndicator())
+                    : Padding(
+                        padding: const EdgeInsets.only(right: 7),
+                        child: SizedBox(
+                          height: 260,
+                          child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: _allBuildengs.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              final building = _allBuildengs[index];
+
+                              return SpacialCard(
+                                houseName: building.name,
+                                area: building.buildingInfo.area,
+                                imgUrl: "assets/img/houseimg.png",
+                                location: building.buildingInfo.town,
+                                price: building.cost,
+                                noBed: building.buildingInfo.numberRooms,
+                                noKitchen: building.buildingInfo.numberFloors,
+                                noBath: building.buildingInfo.nzal,
+                              );
+                            },
+                          ),
+                        ),
+                      ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [

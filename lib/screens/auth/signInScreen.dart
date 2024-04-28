@@ -16,8 +16,8 @@ class SignInScreen extends StatefulWidget {
 }
 
 class _SignInScreenState extends State<SignInScreen> {
-  final TextEditingController _phoneNumberController =
-      TextEditingController(text: "+9647710326414");
+  final TextEditingController _emailController =
+      TextEditingController(text: "noorsaadjabar1@gmail.com");
   final TextEditingController _password =
       TextEditingController(text: "123456789");
   bool _obscureText = true;
@@ -30,7 +30,7 @@ class _SignInScreenState extends State<SignInScreen> {
       });
       final response =
           await HttpHelper.postData(url: EndPoints.signInUrl, body: {
-        "phoneNumber": _phoneNumberController.text,
+        "email": _emailController.text,
         "password": _password.text,
       });
 
@@ -110,11 +110,11 @@ class _SignInScreenState extends State<SignInScreen> {
                   height: 27,
                 ),
                 defaultTextField(
-                  controller: _phoneNumberController,
-                  hintText: "رقم الهاتف",
+                  controller: _emailController,
+                  hintText: "البريد الالكتروني",
                   validator: (p0) {},
                   onChanged: (p0) {},
-                  keyboardType: TextInputType.phone,
+                  keyboardType: TextInputType.emailAddress,
                   prefix: Padding(
                     padding: const EdgeInsets.only(right: 3, left: 3),
                     child: Transform.translate(

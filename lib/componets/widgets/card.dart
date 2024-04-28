@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../appColors.dart';
 
 Widget SpacialCard({
@@ -8,9 +7,9 @@ Widget SpacialCard({
   required int area,
   required String location,
   required int price,
-  int noBed = 0, //handel
-  int noKitchen = 0,
-  int noBath = 0,
+  required int noBed,
+  required int noKitchen,
+  required int noBath,
 }) {
   return Padding(
     padding: const EdgeInsets.all(5.0),
@@ -92,13 +91,14 @@ Widget SpacialCard({
             ),
           ),
           Positioned(
-              top: 219,
-              right: 3,
-              child: Padding(
-                padding: const EdgeInsets.only(right: 7, left: 5),
-                child: Row(children: [
+            top: 219,
+            right: 3,
+            child: Padding(
+              padding: const EdgeInsets.only(right: 7, left: 5),
+              child: Row(
+                children: [
                   Text(
-                    '1 ',
+                    '$noKitchen ',
                     style: TextStyle(
                       color: Color(0xFF828282),
                       fontSize: 10,
@@ -112,7 +112,7 @@ Widget SpacialCard({
                     width: 5,
                   ),
                   Text(
-                    '2',
+                    '$noBed',
                     style: TextStyle(
                       color: Color(0xFF828282),
                       fontSize: 10,
@@ -129,7 +129,7 @@ Widget SpacialCard({
                     width: 5,
                   ),
                   Text(
-                    '1',
+                    '$noBath',
                     style: TextStyle(
                       color: Color(0xFF828282),
                       fontSize: 10,
@@ -142,15 +142,17 @@ Widget SpacialCard({
                     width: 2,
                   ),
                   Image.asset("assets/img/bath.png"),
-                ]),
-              )),
+                ],
+              ),
+            ),
+          ),
           Positioned(
             top: 219,
             right: 160,
             child: Row(
               children: [
                 Text(
-                  '2000sqft',
+                  '$area sqft',
                   style: TextStyle(
                     color: AppColors.gray,
                     fontSize: 8,

@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:real_estate/componets/appColors.dart';
+import 'package:real_estate/network/end_points.dart';
+import 'package:real_estate/network/http_helper.dart';
 import '../../componets/widgets/defaultTextField.dart';
+import '../../models/signupUser_model.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -12,13 +15,65 @@ class SignUpScreen extends StatefulWidget {
 
 class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _phoneNumberController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
   final TextEditingController _password = TextEditingController();
-  final TextEditingController _confirmPasswordController =
-      TextEditingController();
-
+  final TextEditingController _bioController = TextEditingController(text: "bio");
+  final _avatar = TextEditingController(text: "asdds");
+  final _dob = TextEditingController(text: "2000-10-10");
+  final _gender = TextEditingController(text: "male");
+  final _address = TextEditingController(text:"baghdad");
   bool passwordsMatch = true;
   bool _obscureText = false;
+  bool _isLoading = false;
+  signUp() async {
+    try {
+      setState(() {
+        _isLoading = true;
+      });
+
+      final response =
+          await HttpHelper.postData(url: EndPoints.signUpUrl, body: {
+        "email": _emailController.text,
+        "password": _password.text,
+        "name": _nameController.text,
+        "avatar": _avatar.text,
+        "bio": _bioController.text,
+        "gender": _gender.text,
+        "address": _address.text,
+        "dob": _dob.text,
+      });
+
+      print("response = $response");
+
+      if (response["success"]) {
+        final data = SignUpModel.fromJson(
+            response); // Parse "data" field from the response
+
+        // Update UI or perform necessary actions with the parsed data
+
+        // Move navigation logic outside if the data is parsed successfully
+        if (context.mounted) {
+          Navigator.pushNamedAndRemoveUntil(
+              context, "/SignInScreen", (route) => false);
+        }
+      } else {
+        showError(response["message"]);
+      }
+    } catch (e) {
+      print("error in sign up = $e");
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
+
+  showError(String error) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(error),
+      duration: const Duration(seconds: 1),
+    ));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -91,11 +146,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ),
                 ),
                 defaultTextField(
-                  controller: _phoneNumberController,
-                  hintText: "رقم الهاتف",
+                  controller: _emailController,
+                  hintText: "البريد الالكتروني",
                   validator: (p0) {},
                   onChanged: (p0) {},
-                  keyboardType: TextInputType.phone,
+                  keyboardType: TextInputType.emailAddress,
                   prefix: Padding(
                     padding: const EdgeInsets.only(right: 3, left: 3),
                     child: Transform.translate(
@@ -144,100 +199,48 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ),
                   ),
                 ),
-                defaultTextField(
-                  obscureText: _obscureText,
-                  controller: _confirmPasswordController,
-                  hintText: "تأكيد كلمة المرور",
-                  validator: (p0) {},
-                  onChanged: (value) {
-                    setState(() {
-                      passwordsMatch = _password.text == value;
-                    });
-                  },
-                  maxLines: 1,
-                  minLines: 1,
-                  keyboardType: TextInputType.visiblePassword,
-                  prefix: Padding(
-                    padding: const EdgeInsets.only(right: 3, left: 3),
-                    child: Transform.translate(
-                      offset: const Offset(3, 4),
-                      child: SvgPicture.asset(
-                        "assets/img/password.6 1.svg",
-                        width: 25,
-                        height: 28,
-                      ),
-                    ),
-                  ),
-                  suffix: Transform.translate(
-                    offset: const Offset(3, 3),
-                    child: GestureDetector(
-                      child: SvgPicture.asset(
-                        "assets/img/eye.svg",
-                        width: 27,
-                        height: 26,
-                      ),
-                      onTap: () {
-                        setState(() {
-                          _obscureText = !_obscureText;
-                        });
-                      },
-                    ),
-                  ),
-                ),
-                SizedBox(height: 10),
-                passwordsMatch
-                    ? Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(),
-                      )
-                    : const Padding(
-                        padding: EdgeInsets.all(14.0),
-                        child: Text(
-                          'كلمة السر لا تتطابق',
-                          style: TextStyle(
-                            color: Colors.red,
-                            fontFamily: 'Cairo',
-                            fontWeight: FontWeight.w400,
+                SizedBox(height: 15),
+                _isLoading
+                    ? Center(child: CircularProgressIndicator())
+                    : Center(
+                        child: GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              signUp();
+                            });
+                            // create new account
+                          },
+                          child: Container(
+                            width: 380,
+                            height: 60,
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 46, vertical: 16),
+                            decoration: ShapeDecoration(
+                              color: AppColors.secondaryColor,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5)),
+                            ),
+                            child: const Row(
+                              mainAxisSize: MainAxisSize.min,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'التسجيل',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 15,
+                                    fontFamily: 'Cairo',
+                                    fontWeight: FontWeight.w800,
+                                    height: 0,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                SizedBox(height: 15),
-                Center(
-                  child: GestureDetector(
-                    onTap: () {
-                      // create new account
-                    },
-                    child: Container(
-                      width: 380,
-                      height: 60,
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 46, vertical: 16),
-                      decoration: ShapeDecoration(
-                        color: AppColors.secondaryColor,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(5)),
-                      ),
-                      child: const Row(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Text(
-                            'التسجيل',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 15,
-                              fontFamily: 'Cairo',
-                              fontWeight: FontWeight.w800,
-                              height: 0,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
                 SizedBox(
                   height: 15,
                 ),
