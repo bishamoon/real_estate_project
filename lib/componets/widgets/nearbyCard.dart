@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import '../appColors.dart';
 
 Widget nearByCard({
-  String? houseName,
-  String? imgUrl,
-  int? area,
-  String? location,
-  int? price,
-  int noBed = 0, //handel
-  int noKitchen = 0,
-  int noBath = 0,
+  required String houseName,
+  required String imgUrl,
+  required int area,
+  required String location,
+  required int price,
+  required int noBed,
+  required int noKitchen,
+  required int noBath,
 }) {
   return Padding(
     padding: const EdgeInsets.only(left: 5),
@@ -38,7 +38,7 @@ Widget nearByCard({
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'منزل ذو طابع عصري',
+                  houseName,
                   style: TextStyle(
                     color: Color(0xFF333333),
                     fontSize: 12,
@@ -88,7 +88,7 @@ Widget nearByCard({
                   width: 5,
                 ),
                 Text(
-                  "بغداد,المنصور",
+                  location,
                   style: TextStyle(
                     color: AppColors.gray,
                     fontSize: 10,
@@ -104,7 +104,7 @@ Widget nearByCard({
             top: 60,
             right: 115,
             child: Text(
-              'IQD 400,000,000',
+              price.toString(),
               style: TextStyle(
                 color: AppColors.secondaryColor,
                 fontSize: 9,
@@ -120,7 +120,7 @@ Widget nearByCard({
                 padding: const EdgeInsets.only(right: 7, left: 5),
                 child: Row(children: [
                   Text(
-                    '1 ',
+                    noKitchen.toString(),
                     style: TextStyle(
                       color: Color(0xFF828282),
                       fontSize: 10,
@@ -134,7 +134,7 @@ Widget nearByCard({
                     width: 7,
                   ),
                   Text(
-                    '2',
+                    noBed.toString(),
                     style: TextStyle(
                       color: Color(0xFF828282),
                       fontSize: 10,
@@ -151,7 +151,7 @@ Widget nearByCard({
                     width: 7,
                   ),
                   Text(
-                    '1',
+                    noBath.toString(),
                     style: TextStyle(
                       color: Color(0xFF828282),
                       fontSize: 10,
@@ -168,7 +168,7 @@ Widget nearByCard({
                     width: 12,
                   ),
                   Text(
-                    '2000sqft',
+                    area.toString(),
                     style: TextStyle(
                       color: AppColors.gray,
                       fontSize: 8,

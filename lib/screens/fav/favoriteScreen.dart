@@ -151,6 +151,10 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                       imgUrl: "assets/img/houseimg.png",
                       location: 'بغداد , المنصور',
                       price: 1140,
+                      noBath: 0,
+                      noBed: 0,
+                      noKitchen: 0,
+                      type: "",
                     ),
                   ),
                 );

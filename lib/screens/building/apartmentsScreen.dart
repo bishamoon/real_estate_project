@@ -60,12 +60,16 @@ class ApartmentsScreen extends StatelessWidget {
                 return Padding(
                   padding: const EdgeInsets.only(bottom: 5.0, top: 7),
                   child: nearByCard2(
-                    houseName: 'منزل افتراضي',
-                    area: 150,
-                    imgUrl: "assets/img/houseimg.png",
-                    location: 'بغداد , المنصور',
-                    price: 1140,
-                  ),
+                      houseName: 'منزل افتراضي',
+                      area: 150,
+                      imgUrl: "assets/img/houseimg.png",
+                      location: 'بغداد , المنصور',
+                      price: 1140,
+                      noBath: 0,
+                      noBed: 0,
+                      noKitchen: 0,
+                      type: "",
+                    ),
                 );
               },
             ),

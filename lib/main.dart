@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:real_estate/componets/appColors.dart';
 import 'package:real_estate/network/shared_helper.dart';
+import 'package:real_estate/screens/Spacial_Near_Screens/nearMeScreen.dart';
+import 'package:real_estate/screens/Spacial_Near_Screens/spaicalScreen.dart';
 import 'package:real_estate/screens/dashboard/dashboard_screen.dart';
 import 'package:real_estate/screens/homescreen/homeScreen.dart';
 import 'package:real_estate/screens/houseDetails/houseDetails1.dart';
@@ -33,15 +35,17 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         scaffoldBackgroundColor: AppColors.backgroundColor,
       ),
-       //home: isLoggedIn != null ? DashBoardScreen() : SignInScreen(),
+      //home: isLoggedIn != null ? DashBoardScreen() : SignInScreen(),
       home: HomeScreen(),
       routes: {
         '/SignInScreen': (context) => const SignInScreen(),
         '/SignUpScreen': (context) => const SignUpScreen(),
         '/ForgetPassword': (context) => const ForgetPassword(),
         '/HomeScreen': (context) => const HomeScreen(),
-        '/FavoriteScreen': (context) => const FavoriteScreen(),
+        '/FavoriteScreen': (context) => FavoriteScreen(),
         "/dashBoard": (context) => DashBoardScreen(),
+        "/SpacialScreen": (context) => SpacialScreen(),
+        "/NearMeScreen": (context) => NearMeScreen(),
       },
     );
   }

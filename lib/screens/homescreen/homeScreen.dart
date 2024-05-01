@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:real_estate/componets/widgets/defaultsearchField.dart';
 import 'package:real_estate/models/allBuildingModel.dart';
+import 'package:real_estate/models/buildingsByType.dart';
+import 'package:real_estate/models/buildingsNear_model.dart';
 import 'package:real_estate/network/end_points.dart';
 import 'package:real_estate/network/http_helper.dart';
 import 'package:real_estate/screens/building/apartmentsScreen.dart';
@@ -19,12 +21,17 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final TextEditingController _searchController = TextEditingController();
   int _currentIndex = 0;
-  List<Datum> _allBuildengs = [];
+
+  List _allBuildengs = [];
+  List<NearMeModel> _nearMeBuildings = [];
+
   bool _isLoadingALlBuildings = false;
+  bool _isLoadingNearBuildings = false;
 
   @override
   void initState() {
     getAllBuildings();
+    //getNearBuildings();
     super.initState();
   }
 
@@ -42,6 +49,21 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {});
   }
 
+  /* getNearBuildings() async {
+    setState(() {
+      _isLoadingNearBuildings = true;
+    });
+    final response = await HttpHelper.getData(url: EndPoints.nearMeBuildings);
+    if (response['success']) {
+      //change model>>>>>>
+      final model = AllBuildingModel.fromJson(response);
+      _allBuildengs.addAll(model.data);
+    }
+    _isLoadingNearBuildings = false;
+
+    setState(() {});
+  }
+ */
   @override
   Widget build(BuildContext context) {
     return Directionality(
@@ -186,7 +208,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       padding: const EdgeInsets.only(left: 10),
                       child: GestureDetector(
                         onTap: () {
-                          //go to spaical houses page
+                          setState(() {
+                            Navigator.pushNamed(context, "/SpacialScreen");
+                          });
                         },
                         child: Row(
                           children: [
@@ -224,14 +248,14 @@ class _HomeScreenState extends State<HomeScreen> {
                               final building = _allBuildengs[index];
 
                               return SpacialCard(
-                                houseName: building.name,
-                                area: building.buildingInfo.area,
+                                houseName: building.data[index].name,
+                                area: building.data[index].buildingInfo.area,
                                 imgUrl: "assets/img/houseimg.png",
-                                location: building.buildingInfo.town,
-                                price: building.cost,
-                                noBed: building.buildingInfo.numberRooms,
-                                noKitchen: building.buildingInfo.numberFloors,
-                                noBath: building.buildingInfo.nzal,
+                                location: building.data[index].buildingInfo.town,
+                                price: building.data[index].cost,
+                                noBed: building.data[index].buildingInfo.numberRooms,
+                                noKitchen: building.data[index].buildingInfo.numberFloors,
+                                noBath: building.data[index].buildingInfo.numberServers,
                               );
                             },
                           ),
@@ -258,7 +282,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       padding: const EdgeInsets.only(left: 10),
                       child: GestureDetector(
                         onTap: () {
-                          //go to near houses page
+                          Navigator.pushNamed(context, "/NearMeScreen");
                         },
                         child: Row(
                           children: [
@@ -280,19 +304,32 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ],
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(right: 7),
-                  child: SizedBox(
-                    height: 100,
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: 6,
-                      itemBuilder: (BuildContext context, int index) {
-                        return nearByCard();
-                      },
-                    ),
-                  ),
-                ),
+               /*  _isLoadingNearBuildings
+                    ? const Center(child: CircularProgressIndicator())
+                    : Padding(
+                        padding: const EdgeInsets.only(right: 7),
+                        child: SizedBox(
+                          height: 100,
+                          child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: 6,
+                            itemBuilder: (BuildContext context, int index) {
+                              //edit it based on model near me ... 
+                              final building = _nearMeBuildings[index];
+                              return nearByCard(
+                                houseName: building.name,
+                                area: building.buildingInfo.area,
+                                imgUrl: "assets/img/houseimg.png",
+                                location: building.buildingInfo.town,
+                                price: building.cost,
+                                noBed: building.buildingInfo.numberRooms,
+                                noKitchen: building.buildingInfo.numberFloors,
+                                noBath: building.buildingInfo.nzal,
+                              );
+                            },
+                          ),
+                        ),
+                      ), */
                 const SizedBox(
                   height: 50,
                 )
@@ -300,32 +337,8 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
         ),
-        // bottomNavigationBar: CustomBottomNavigationBar(context:context),
-        // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        // floatingActionButton: Container(
-        //   margin: const EdgeInsets.only(top: 45),
-        //   height: 70,
-        //   width: 70,
-        //   child: FloatingActionButton(
-        //     backgroundColor: AppColors.primaryColor,
-        //     elevation: 0,
-        //     onPressed: () => debugPrint("Add Button pressed"),
-        //     shape: RoundedRectangleBorder(
-        //         borderRadius: BorderRadius.circular(100)),
-        //     child: GestureDetector(
-        //       child: Image.asset("assets/img/write.png"),
-        //       onTap: () {},
-        //     ),
-        //   ),
-        // ),
       ),
     );
-  }
-
-  void _onTabTapped(int index) {
-    setState(() {
-      _currentIndex = index;
-    });
   }
 
   void navigateToCategoryPage(BuildContext context, String categoryText) {

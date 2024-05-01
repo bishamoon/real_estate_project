@@ -100,7 +100,7 @@ class Profile extends StatelessWidget {
                   ],
                 ),
               ),
-              Padding(
+              /*  Padding(
                 padding: const EdgeInsets.only(right: 7),
                 child: SizedBox(
                   height: 600,
@@ -115,7 +115,7 @@ class Profile extends StatelessWidget {
                     },
                   ),
                 ),
-              ),
+              ), */
             ],
           ),
         ),

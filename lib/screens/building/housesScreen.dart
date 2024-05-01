@@ -1,11 +1,33 @@
 import 'package:flutter/material.dart';
-
+import 'package:real_estate/network/end_points.dart';
 import '../../componets/appColors.dart';
-import '../../componets/widgets/nearbyCard.dart';
 import '../../componets/widgets/nearbyCard2.dart';
+import '../../models/buildingsByType.dart';
+import '../../network/http_helper.dart';
 
-class HousesScreen extends StatelessWidget {
+class HousesScreen extends StatefulWidget {
   const HousesScreen({super.key});
+
+  @override
+  State<HousesScreen> createState() => _HousesScreenState();
+}
+
+class _HousesScreenState extends State<HousesScreen> {
+  List<Datum> _buildingsByType = [];
+  bool _isLoadingBuildingsType = false;
+
+  getBuildingsByType() async {
+    setState(() {
+      _isLoadingBuildingsType = true;
+    });
+
+    final response = await HttpHelper.getData(url: EndPoints.buildingsByType);
+    if (response['success']) {
+      final model = BuildingByType.fromJson(response);
+      _buildingsByType.addAll(model.data);
+    }
+    _isLoadingBuildingsType = false;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +66,7 @@ class HousesScreen extends StatelessWidget {
           child: GestureDetector(
             child: Image.asset("assets/img/ic_round-arrow-back.png"),
             onTap: () {
-              //pop
+              Navigator.pop(context);
             },
           ),
         ),
@@ -59,14 +81,19 @@ class HousesScreen extends StatelessWidget {
               scrollDirection: Axis.vertical,
               itemCount: 20,
               itemBuilder: (BuildContext context, int index) {
+              final building = _buildingsByType[index];
+//داشتغل بيها
                 return Padding(
                   padding: const EdgeInsets.only(bottom: 5.0, top: 7),
                   child: nearByCard2(
-                    houseName: 'منزل افتراضي',
-                    area: 150,
-                    imgUrl: "assets/img/houseimg.png",
-                    location: 'بغداد , المنصور',
-                    price: 1140,
+                   houseName: building.name,
+                                area: building.building[index].,
+                                imgUrl: "assets/img/houseimg.png",
+                                location: building.buildingInfo.town,
+                                price: building.buildingInfo,
+                                noBed: building.buildingInfo.numberRooms,
+                                noKitchen: building.buildingInfo.numberFloors,
+                                noBath: building.buildingInfo.nzal, type: building.name,
                   ),
                 );
               },
