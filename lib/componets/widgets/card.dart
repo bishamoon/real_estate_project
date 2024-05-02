@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../appColors.dart';
 
 Widget SpacialCard({
@@ -16,90 +17,76 @@ Widget SpacialCard({
     child: Container(
       width: 220,
       height: 250,
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       decoration: ShapeDecoration(
         color: Colors.white,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15),
         ),
       ),
-      child: Stack(
+      child: Column(
         children: [
-          Positioned(
-            top: -11,
-            right: 10,
+          SizedBox(
+            height: 150,
             child: Image.asset(
               imgUrl,
-              height: 190,
-              width: 200,
+              width: 220,
             ),
           ),
-          Positioned(
-            top: 159,
-            right: 4,
-            child: Padding(
-              padding: const EdgeInsets.only(right: 5, left: 7),
-              child: Row(
-                children: [
-                  Text(
-                    houseName,
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 15,
-                      fontFamily: 'Cairo',
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  SizedBox(
-                    width: 75,
-                  ),
-                  Text(
-                    '$price \$ ',
-                    style: TextStyle(
-                      color: AppColors.secondaryColor,
-                      fontSize: 12,
-                      fontFamily: 'Cairo',
-                      fontWeight: FontWeight.w400,
-                    ),
-                  )
-                ],
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                houseName,
+                style: const TextStyle(
+                  color: Colors.black,
+                  fontSize: 15,
+                  fontFamily: 'Cairo',
+                  fontWeight: FontWeight.w600,
+                ),
               ),
-            ),
+              // const SizedBox(
+              //   width: 75,
+              // ),
+              Text(
+                '$price \$ ',
+                style: const TextStyle(
+                  color: AppColors.secondaryColor,
+                  fontSize: 14,
+                  fontFamily: 'Cairo',
+                  fontWeight: FontWeight.bold,
+                ),
+              )
+            ],
           ),
-          Positioned(
-            top: 188,
-            right: 4,
-            child: Padding(
-              padding: const EdgeInsets.only(right: 5),
-              child: Row(
-                children: [
-                  Image.asset("assets/img/location.png"),
-                  SizedBox(
-                    width: 5,
-                  ),
-                  Text(
-                    location,
-                    style: TextStyle(
-                      color: AppColors.gray,
-                      fontSize: 10,
-                      fontFamily: 'Cairo',
-                      fontWeight: FontWeight.w600,
-                      height: 0,
-                    ),
-                  )
-                ],
+          const SizedBox(height: 5),
+          Row(
+            children: [
+              Image.asset("assets/img/location.png"),
+              const SizedBox(
+                width: 5,
               ),
-            ),
+              Text(
+                location,
+                style: const TextStyle(
+                  color: AppColors.gray,
+                  fontSize: 10,
+                  fontFamily: 'Cairo',
+                  fontWeight: FontWeight.w600,
+                  height: 0,
+                ),
+              )
+            ],
           ),
-          Positioned(
-            top: 219,
-            right: 3,
-            child: Padding(
-              padding: const EdgeInsets.only(right: 7, left: 5),
-              child: Row(
+          const Spacer(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
                 children: [
                   Text(
                     '$noKitchen ',
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Color(0xFF828282),
                       fontSize: 10,
                       fontFamily: 'Poppins',
@@ -108,12 +95,12 @@ Widget SpacialCard({
                     ),
                   ),
                   Image.asset("assets/img/cook.png"),
-                  SizedBox(
+                  const SizedBox(
                     width: 5,
                   ),
                   Text(
                     '$noBed',
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Color(0xFF828282),
                       fontSize: 10,
                       fontFamily: 'Poppins',
@@ -121,16 +108,16 @@ Widget SpacialCard({
                       height: 0,
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 2,
                   ),
                   Image.asset("assets/img/bed.png"),
-                  SizedBox(
+                  const SizedBox(
                     width: 5,
                   ),
                   Text(
                     '$noBath',
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Color(0xFF828282),
                       fontSize: 10,
                       fontFamily: 'Poppins',
@@ -138,34 +125,30 @@ Widget SpacialCard({
                       height: 0,
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 2,
                   ),
                   Image.asset("assets/img/bath.png"),
                 ],
               ),
-            ),
-          ),
-          Positioned(
-            top: 219,
-            right: 160,
-            child: Row(
-              children: [
-                Text(
-                  '$area sqft',
-                  style: TextStyle(
-                    color: AppColors.gray,
-                    fontSize: 8,
-                    fontWeight: FontWeight.w600,
-                    height: 0,
+              Row(
+                children: [
+                  Text(
+                    '$area sqft',
+                    style: const TextStyle(
+                      color: AppColors.gray,
+                      fontSize: 8,
+                      fontWeight: FontWeight.w600,
+                      height: 0,
+                    ),
                   ),
-                ),
-                SizedBox(
-                  width: 3,
-                ),
-                Image.asset("assets/img/area.png")
-              ],
-            ),
+                  const SizedBox(
+                    width: 3,
+                  ),
+                  Image.asset("assets/img/area.png")
+                ],
+              ),
+            ],
           ),
         ],
       ),

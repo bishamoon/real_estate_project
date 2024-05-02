@@ -4,9 +4,9 @@ import 'package:real_estate/models/signinUser_model.dart';
 import 'package:real_estate/network/end_points.dart';
 import 'package:real_estate/network/http_helper.dart';
 import 'package:real_estate/network/shared_helper.dart';
+
 import '../../componets/appColors.dart';
 import '../../componets/widgets/defaultTextField.dart';
-import "package:http/http.dart" as http;
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -17,9 +17,9 @@ class SignInScreen extends StatefulWidget {
 
 class _SignInScreenState extends State<SignInScreen> {
   final TextEditingController _emailController =
-      TextEditingController(text: "noorsaadjabar1@gmail.com");
+      TextEditingController(text: "noor@gmail.com");
   final TextEditingController _password =
-      TextEditingController(text: "123456789");
+      TextEditingController(text: "12421221dswa");
   bool _obscureText = true;
   bool _isLoading = false;
 
@@ -77,7 +77,7 @@ class _SignInScreenState extends State<SignInScreen> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Padding(
+                const Padding(
                   padding: EdgeInsets.only(right: 18, top: 14),
                   child: Text(
                     'Real Estate',
@@ -90,10 +90,10 @@ class _SignInScreenState extends State<SignInScreen> {
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 16,
                 ),
-                Padding(
+                const Padding(
                   padding: EdgeInsets.only(right: 18),
                   child: Text(
                     "قم بالتسجيل , ابحث عن منزل احلامك",
@@ -106,13 +106,15 @@ class _SignInScreenState extends State<SignInScreen> {
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 27,
                 ),
                 defaultTextField(
                   controller: _emailController,
                   hintText: "البريد الالكتروني",
-                  validator: (p0) {},
+                  validator: (p0) {
+                    return null;
+                  },
                   onChanged: (p0) {},
                   keyboardType: TextInputType.emailAddress,
                   prefix: Padding(
@@ -131,7 +133,9 @@ class _SignInScreenState extends State<SignInScreen> {
                   obscureText: _obscureText,
                   controller: _password,
                   hintText: "كلمة المرور",
-                  validator: (p0) {},
+                  validator: (p0) {
+                    return null;
+                  },
                   onChanged: (p0) {},
                   maxLines: 1,
                   minLines: 1,
@@ -162,11 +166,11 @@ class _SignInScreenState extends State<SignInScreen> {
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 30,
                 ),
                 _isLoading
-                    ? Center(child: CircularProgressIndicator())
+                    ? const Center(child: CircularProgressIndicator())
                     : Center(
                         child: GestureDetector(
                           onTap: () {
@@ -206,12 +210,12 @@ class _SignInScreenState extends State<SignInScreen> {
                           ),
                         ),
                       ),
-                SizedBox(
+                const SizedBox(
                   height: 15,
                 ),
                 Center(
                   child: GestureDetector(
-                    child: Text(
+                    child: const Text(
                       'هل نسيت كلمة  السر؟',
                       textAlign: TextAlign.right,
                       style: TextStyle(
@@ -227,7 +231,7 @@ class _SignInScreenState extends State<SignInScreen> {
                     },
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 160,
                 ),
                 Center(
@@ -236,21 +240,21 @@ class _SignInScreenState extends State<SignInScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Text('ليس لديك حساب؟',
+                        const Text('ليس لديك حساب؟',
                             style: TextStyle(
                               color: Colors.black,
                               fontSize: 15,
                               fontFamily: 'Cairo',
                               fontWeight: FontWeight.w600,
                             )),
-                        SizedBox(
+                        const SizedBox(
                           width: 5,
                         ),
                         GestureDetector(
                           onTap: () {
                             Navigator.pushNamed(context, "/SignUpScreen");
                           },
-                          child: Text(
+                          child: const Text(
                             'انشاء حساب',
                             style: TextStyle(
                               color: AppColors.secondaryColor,

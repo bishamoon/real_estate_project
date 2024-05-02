@@ -59,13 +59,13 @@ class LandsScreen extends StatelessWidget {
               itemBuilder: (BuildContext context, int index) {
                 return Padding(
                   padding: const EdgeInsets.only(bottom: 5.0, top: 7),
-                  child: nearByCard2(
-                    houseName: 'منزل افتراضي',
-                    area: 150,
-                    imgUrl: "assets/img/houseimg.png",
-                    location: 'بغداد , المنصور',
-                    price: 1140,
-                  ),
+                  // child: nearByCard2(
+                  //   houseName: 'منزل افتراضي',
+                  //   area: 150,
+                  //   imgUrl: "assets/img/houseimg.png",
+                  //   location: 'بغداد , المنصور',
+                  //   price: 1140,
+                  // ),
                 );
               },
             ),

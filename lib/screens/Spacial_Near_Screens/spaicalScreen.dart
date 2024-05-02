@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:real_estate/componets/widgets/card.dart';
-import 'package:real_estate/models/allBuildingModel.dart';
+import 'package:real_estate/componets/widgets/is_loading_widget.dart';
+import 'package:real_estate/componets/widgets/nearbyCard.dart';
+import 'package:real_estate/models/building_model.dart';
 import 'package:real_estate/network/end_points.dart';
 import 'package:real_estate/network/http_helper.dart';
+
 import '../../componets/appColors.dart';
-import '../../componets/widgets/nearbyCard2.dart';
 
 class SpacialScreen extends StatefulWidget {
   const SpacialScreen({super.key});
@@ -14,7 +15,7 @@ class SpacialScreen extends StatefulWidget {
 }
 
 class _SpacialScreenState extends State<SpacialScreen> {
-  List<Datum> _allBuildengs = [];
+  final List<DataBuildingModel> _allBuildengs = [];
   bool _isLoadingALlBuildings = false;
 
   @override
@@ -29,7 +30,7 @@ class _SpacialScreenState extends State<SpacialScreen> {
     });
     final response = await HttpHelper.getData(url: EndPoints.allBuilding);
     if (response['success']) {
-      final model = AllBuildingModel.fromJson(response);
+      final model = BuildingModel.fromJson(response);
       _allBuildengs.addAll(model.data);
     }
     _isLoadingALlBuildings = false;
@@ -49,7 +50,7 @@ class _SpacialScreenState extends State<SpacialScreen> {
               child: Container(
                   width: 50,
                   height: 50,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                       shape: BoxShape.circle,
                       color: AppColors.iconBackgroundColor),
                   child: Image.asset("assets/img/search.png")),
@@ -57,7 +58,7 @@ class _SpacialScreenState extends State<SpacialScreen> {
             ),
           ),
         ],
-        title: Center(
+        title: const Center(
           child: Text(
             'المنازل المميزة',
             textAlign: TextAlign.center,
@@ -82,35 +83,27 @@ class _SpacialScreenState extends State<SpacialScreen> {
       body: Directionality(
         textDirection: TextDirection.rtl,
         child: _isLoadingALlBuildings
-            ? const Center(child: CircularProgressIndicator())
-            : Center(
-                child: SizedBox(
-                  width: 380,
-                  height: 800,
-                  child: ListView.builder(
-                    scrollDirection: Axis.vertical,
-                    itemCount: _allBuildengs.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      final building = _allBuildengs[index];
-
-                      return Center(
-                        child: Padding(
-                          padding: const EdgeInsets.only(bottom: 5.0, top: 7),
-                          child: SpacialCard(
-                            houseName: building.name,
-                            area: building.buildingInfo.area,
-                            imgUrl: "assets/img/houseimg.png",
-                            location: building.buildingInfo.town,
-                            price: building.cost,
-                            noBed: building.buildingInfo.numberRooms,
-                            noKitchen: building.buildingInfo.numberFloors,
-                            noBath: building.buildingInfo.nzal,
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                ),
+            ? const IsLoadingWidget()
+            : ListView.builder(
+                padding: const EdgeInsets.all(10),
+                itemCount: _allBuildengs.length,
+                itemBuilder: (BuildContext context, int index) {
+                  final building = _allBuildengs[index];
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 5.0, top: 7),
+                    child: nearByCard(
+                      houseName: building.name,
+                      area: building.buildingInfo.area,
+                      imgUrl: "assets/img/houseimg.png",
+                      location: building.buildingInfo.town,
+                      price: building.cost,
+                      noBed: building.buildingInfo.numberRooms,
+                      noKitchen: building.buildingInfo.numberFloors,
+                      noBath: building.buildingInfo.nzal,
+                      type: building.typeBuild.name,
+                    ),
+                  );
+                },
               ),
       ),
     );

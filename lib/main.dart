@@ -5,17 +5,11 @@ import 'package:real_estate/screens/Spacial_Near_Screens/nearMeScreen.dart';
 import 'package:real_estate/screens/Spacial_Near_Screens/spaicalScreen.dart';
 import 'package:real_estate/screens/dashboard/dashboard_screen.dart';
 import 'package:real_estate/screens/homescreen/homeScreen.dart';
-import 'package:real_estate/screens/houseDetails/houseDetails1.dart';
-import 'screens/addNewHouse/addNewHouse.dart';
-import 'screens/addNewHouse/addNewHouse3.dart';
-import 'screens/addNewHouse/addnewHouse2.dart';
+
 import 'screens/auth/forgetpassword.dart';
 import 'screens/auth/signInScreen.dart';
 import 'screens/auth/signUpScreen.dart';
 import 'screens/fav/favoriteScreen.dart';
-import 'screens/profile/editProfile.dart';
-import 'screens/profile/profile.dart';
-import 'screens/search/searchScreen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -35,17 +29,17 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         scaffoldBackgroundColor: AppColors.backgroundColor,
       ),
-      //home: isLoggedIn != null ? DashBoardScreen() : SignInScreen(),
-      home: HomeScreen(),
+      home: isLoggedIn != null ? const DashBoardScreen() : const SignInScreen(),
+      // home: const SignInScreen(),
       routes: {
         '/SignInScreen': (context) => const SignInScreen(),
         '/SignUpScreen': (context) => const SignUpScreen(),
         '/ForgetPassword': (context) => const ForgetPassword(),
         '/HomeScreen': (context) => const HomeScreen(),
-        '/FavoriteScreen': (context) => FavoriteScreen(),
-        "/dashBoard": (context) => DashBoardScreen(),
-        "/SpacialScreen": (context) => SpacialScreen(),
-        "/NearMeScreen": (context) => NearMeScreen(),
+        '/FavoriteScreen': (context) => const FavoriteScreen(),
+        "/dashBoard": (context) => const DashBoardScreen(),
+        "/SpacialScreen": (context) => const SpacialScreen(),
+        "/NearMeScreen": (context) => const NearMeScreen(),
       },
     );
   }

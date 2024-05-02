@@ -1,9 +1,51 @@
 import 'package:flutter/material.dart';
-import '../../componets/appColors.dart';
-import '../../componets/widgets/nearbyCard2.dart';
+import 'package:real_estate/componets/widgets/is_loading_widget.dart';
+import 'package:real_estate/componets/widgets/nearbyCard.dart';
+import 'package:real_estate/models/building_model.dart';
+import 'package:real_estate/network/end_points.dart';
+import 'package:real_estate/network/http_helper.dart';
 
-class ApartmentsScreen extends StatelessWidget {
-  const ApartmentsScreen({super.key});
+import '../../componets/appColors.dart';
+
+class ApartmentsScreen extends StatefulWidget {
+  const ApartmentsScreen({super.key, required this.type});
+
+  final String type;
+
+  @override
+  State<ApartmentsScreen> createState() => _ApartmentsScreenState();
+}
+
+class _ApartmentsScreenState extends State<ApartmentsScreen> {
+  bool _isLoading = false;
+  final List<DataBuildingModel> _buildings = [];
+
+  getBuildings() async {
+    setState(() {
+      _isLoading = true;
+    });
+    final response = await HttpHelper.postData(
+        url: EndPoints.buildingsByType, body: {"name": widget.type});
+    if (response['success']) {
+      if (response['data'] != null && response['data'].isNotEmpty) {
+        final data = ((response['data'][0]['Building']) as List)
+            .map((e) => DataBuildingModel.fromJson(e))
+            .toList();
+        _buildings.addAll(data);
+      } else {
+        _buildings.clear();
+      }
+    }
+    _isLoading = false;
+
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    getBuildings();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +59,7 @@ class ApartmentsScreen extends StatelessWidget {
               child: Container(
                   width: 50,
                   height: 50,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                       shape: BoxShape.circle,
                       color: AppColors.iconBackgroundColor),
                   child: Image.asset("assets/img/search.png")),
@@ -27,9 +69,9 @@ class ApartmentsScreen extends StatelessWidget {
         ],
         title: Center(
           child: Text(
-            'الشقق',
+            widget.type,
             textAlign: TextAlign.center,
-            style: TextStyle(
+            style: const TextStyle(
               color: AppColors.secondaryColor,
               fontSize: 26,
               fontFamily: "Cairo",
@@ -42,40 +84,62 @@ class ApartmentsScreen extends StatelessWidget {
           child: GestureDetector(
             child: Image.asset("assets/img/ic_round-arrow-back.png"),
             onTap: () {
-              //pop
+              Navigator.pop(context);
             },
           ),
         ),
       ),
       body: Directionality(
-        textDirection: TextDirection.rtl,
-        child: Center(
-          child: SizedBox(
-            width: 380,
-            height: 800,
-            child: ListView.builder(
-              scrollDirection: Axis.vertical,
-              itemCount: 20,
-              itemBuilder: (BuildContext context, int index) {
-                return Padding(
-                  padding: const EdgeInsets.only(bottom: 5.0, top: 7),
-                  child: nearByCard2(
-                      houseName: 'منزل افتراضي',
-                      area: 150,
-                      imgUrl: "assets/img/houseimg.png",
-                      location: 'بغداد , المنصور',
-                      price: 1140,
-                      noBath: 0,
-                      noBed: 0,
-                      noKitchen: 0,
-                      type: "",
+          textDirection: TextDirection.rtl,
+          child: Builder(builder: (_) {
+            if (_isLoading) {
+              return const IsLoadingWidget();
+            } else if (_buildings.isEmpty) {
+              return const SizedBox(
+                height: 260,
+                child: Center(
+                  child: Text(
+                    "لا يوجد عقارات حالياً",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 17,
+                      fontFamily: 'Cairo',
+                      fontWeight: FontWeight.w700,
+                      height: 0,
                     ),
-                );
-              },
-            ),
-          ),
-        ),
-      ),
+                  ),
+                ),
+              );
+            } else if (_buildings.isNotEmpty) {
+              return ListView.separated(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+                itemCount: _buildings.length,
+                separatorBuilder: (BuildContext context, int index) {
+                  return const SizedBox(
+                    height: 10,
+                  );
+                },
+                itemBuilder: (BuildContext context, int index) {
+                  final building = _buildings[index];
+
+                  return nearByCard(
+                    houseName: building.name,
+                    area: building.buildingInfo.area,
+                    imgUrl: "assets/img/houseimg.png",
+                    location: building.buildingInfo.town,
+                    price: building.cost,
+                    noBed: building.buildingInfo.numberRooms,
+                    noKitchen: building.buildingInfo.numberFloors,
+                    noBath: building.buildingInfo.numberServers,
+                    type: widget.type,
+                  );
+                },
+              );
+            } else {
+              return const Center(child: Text("Error"));
+            }
+          })),
     );
   }
 }
