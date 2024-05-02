@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:real_estate/componets/widgets/cardDetails.dart';
 import 'package:real_estate/componets/widgets/cardSp.dart';
+import 'package:real_estate/models/build_details_model.dart';
 
 import '../../componets/appColors.dart';
 
 class DescrptionScreen extends StatelessWidget {
-  DescrptionScreen({super.key});
+  DescrptionScreen({super.key, required this.model});
+
+  final BuildingDetails model;
 
   List names = ['الحديقة', 'خدمات', 'غرف نوم', 'مساحة'];
-  List numberOfIem = ['100 م', '2', '2', '200'];
   List urlImg = [
     "assets/img/garden.png",
     "assets/img/bathtub.png",
@@ -34,13 +36,13 @@ class DescrptionScreen extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             Center(
               child: Text(
-                "منزل باللون الابيض والأزرق يتميز بأطلالة مميزة",
-                style: TextStyle(
+                model.data.description,
+                style: const TextStyle(
                   color: Colors.grey,
                   fontSize: 15,
                   fontFamily: 'Cairo',
@@ -48,30 +50,36 @@ class DescrptionScreen extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: SizedBox(
-                width: double.maxFinite,
-                height: 100,
-                child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: 4,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Padding(
-                        padding: const EdgeInsets.all(5.0),
-                        child: cardDetails(
-                          name: names[index],
-                          numberofItem: numberOfIem[index],
-                          urlOfImg: urlImg[index],
-                        ),
-                      );
-                    }),
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                cardDetails(
+                  name: names[0],
+                  numberofItem: model.data.buildingInfo.garageArea.toString(),
+                  urlOfImg: urlImg[0],
+                ),
+                cardDetails(
+                  name: names[1],
+                  numberofItem:
+                      model.data.buildingInfo.numberServers.toString(),
+                  urlOfImg: urlImg[1],
+                ),
+                cardDetails(
+                  name: names[2],
+                  numberofItem: model.data.buildingInfo.numberRooms.toString(),
+                  urlOfImg: urlImg[2],
+                ),
+                cardDetails(
+                  name: names[3],
+                  numberofItem: "${model.data.buildingInfo.area.toString()}م",
+                  urlOfImg: urlImg[3],
+                ),
+              ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             Row(
@@ -95,14 +103,14 @@ class DescrptionScreen extends StatelessWidget {
                     ),
                     Padding(
                       padding: const EdgeInsets.all(5.0),
-                      child: const Column(
+                      child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Padding(
-                            padding: EdgeInsets.only(right: 12.0),
+                            padding: const EdgeInsets.only(right: 12.0),
                             child: Text(
-                              'علا عبد الصبور',
-                              style: TextStyle(
+                              model.data.user.name,
+                              style: const TextStyle(
                                 color: Colors.black,
                                 fontSize: 17,
                                 fontFamily: 'Cairo',
@@ -111,7 +119,7 @@ class DescrptionScreen extends StatelessWidget {
                               ),
                             ),
                           ),
-                          Padding(
+                          const Padding(
                             padding: EdgeInsets.only(right: 12.0),
                             child: Text(
                               'المالك',
@@ -134,7 +142,7 @@ class DescrptionScreen extends StatelessWidget {
                   child: Container(
                     width: 50,
                     height: 50,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                         shape: BoxShape.circle,
                         color: AppColors.iconBackgroundColor),
                     child: Image.asset("assets/img/call.png"),
@@ -142,11 +150,11 @@ class DescrptionScreen extends StatelessWidget {
                 )
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
-            Padding(
-              padding: const EdgeInsets.all(12.0),
+            const Padding(
+              padding: EdgeInsets.all(12.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -166,44 +174,49 @@ class DescrptionScreen extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 5,
             ),
-            SizedBox(
-              width: double.maxFinite,
-              height: 100,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: 3,
-                itemBuilder: (BuildContext context, int index) {
-                  return Padding(
-                    padding: const EdgeInsets.all(5.0),
-                    child: cardSp(
-                      name: nameSp[index],
-                      urlOfImg: urlImgSp[index],
-                    ),
-                  );
-                },
-              ),
+            Wrap(
+              direction: Axis.horizontal,
+              alignment: WrapAlignment.spaceEvenly,
+              crossAxisAlignment: WrapCrossAlignment.start,
+              runAlignment: WrapAlignment.start,
+              spacing: 10,
+              runSpacing: 10,
+              children: <Widget>[
+                model.data.buildingInfo.hotKatchen
+                    ? cardSp(
+                        name: nameSp[0],
+                        urlOfImg: urlImgSp[0],
+                      )
+                    : const SizedBox(),
+                model.data.buildingInfo.pool
+                    ? cardSp(
+                        name: nameSp[2],
+                        urlOfImg: urlImgSp[2],
+                      )
+                    : const SizedBox(),
+                model.data.buildingInfo.garageArea != 0
+                    ? cardSp(
+                        name: nameSp2[0],
+                        urlOfImg: urlImgSp2[0],
+                      )
+                    : const SizedBox(),
+                model.data.buildingInfo.laundryRoom
+                    ? cardSp(
+                        name: nameSp2[1],
+                        urlOfImg: urlImgSp2[1],
+                      )
+                    : const SizedBox(),
+                // cardSp(
+                //   name: nameSp2[2],
+                //   urlOfImg: urlImgSp2[2],
+                // ),
+              ],
             ),
-            SizedBox(
-              width: double.maxFinite,
-              height: 100,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: 3,
-                itemBuilder: (BuildContext context, int index) {
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: cardSp(
-                      name: nameSp2[index],
-                      urlOfImg: urlImgSp2[index],
-                    ),
-                  );
-                },
-              ),
-            ),
-            SizedBox(
+            const SizedBox(height: 10),
+            const SizedBox(
               height: 10,
             ),
             Padding(
@@ -211,7 +224,7 @@ class DescrptionScreen extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
+                  const Text(
                     "العنوان",
                     style: TextStyle(
                       color: Colors.black,
@@ -222,7 +235,7 @@ class DescrptionScreen extends StatelessWidget {
                     ),
                   ),
                   GestureDetector(
-                    child: Text(
+                    child: const Text(
                       "عرض على الخريطة",
                       style: TextStyle(
                         color: AppColors.secondaryColor,
@@ -241,74 +254,10 @@ class DescrptionScreen extends StatelessWidget {
               height: 0.5, // Adjust height as needed
               color: Colors.grey, // Adjust color as needed
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             )
           ],
-        ),
-      ),
-      bottomNavigationBar: Container(
-        width: 380,
-        height: 88,
-        decoration: BoxDecoration(color: Colors.white),
-        child: Center(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  width: 140,
-                  height: 56,
-                  decoration: BoxDecoration(
-                    color: AppColors.secondaryColor,
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(44),
-                    ),
-                  ),
-                  child: Center(
-                    child: Text(
-                      "اتصل الان",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 15,
-                        fontFamily: 'Cairo',
-                        fontWeight: FontWeight.bold,
-                        height: 0,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Column(
-                  children: [
-                    Text(
-                      "السعر الكامل",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 16,
-                        fontFamily: 'Cairo',
-                        fontWeight: FontWeight.bold,
-                        height: 0,
-                      ),
-                    ),
-                    Text(
-                      "600,000,000 IQD",
-                      style: TextStyle(
-                        color: AppColors.secondaryColor,
-                        fontSize: 16,
-                        fontFamily: 'Cairo',
-                        fontWeight: FontWeight.bold,
-                        height: 0,
-                      ),
-                    )
-                  ],
-                ),
-              )
-            ],
-          ),
         ),
       ),
     );

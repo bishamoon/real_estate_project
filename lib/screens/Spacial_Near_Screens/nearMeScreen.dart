@@ -120,6 +120,8 @@ class _NearMeScreenState extends State<NearMeScreen> {
                   noKitchen: building.buildingInfo.numberFloors,
                   noBath: building.buildingInfo.nzal,
                   type: building.typeBuild.name,
+                  context: context,
+                  id: building.id,
                 );
               },
             );

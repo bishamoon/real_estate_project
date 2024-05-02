@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:real_estate/componets/appColors.dart';
 
 class PhotosScreen extends StatefulWidget {
   const PhotosScreen({super.key});
@@ -29,7 +28,7 @@ class _PhotosScreenState extends State<PhotosScreen> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
+                  const Text(
                     "عرض الصور",
                     style: TextStyle(
                       color: Colors.black,
@@ -45,7 +44,7 @@ class _PhotosScreenState extends State<PhotosScreen> {
                     },
                     child: Row(
                       children: [
-                        Text(
+                        const Text(
                           "عرض المزيد",
                           style: TextStyle(
                             color: Colors.black,
@@ -62,7 +61,7 @@ class _PhotosScreenState extends State<PhotosScreen> {
                 ],
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             SizedBox(
@@ -83,74 +82,10 @@ class _PhotosScreenState extends State<PhotosScreen> {
                 },
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
           ],
-        ),
-      ),
-      bottomNavigationBar: Container(
-        width: 380,
-        height: 88,
-        decoration: BoxDecoration(color: Colors.white),
-        child: Center(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  width: 140,
-                  height: 56,
-                  decoration: BoxDecoration(
-                    color: AppColors.secondaryColor,
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(44),
-                    ),
-                  ),
-                  child: Center(
-                    child: Text(
-                      "اتصل الان",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 15,
-                        fontFamily: 'Cairo',
-                        fontWeight: FontWeight.bold,
-                        height: 0,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Column(
-                  children: [
-                    Text(
-                      "السعر الكامل",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 16,
-                        fontFamily: 'Cairo',
-                        fontWeight: FontWeight.bold,
-                        height: 0,
-                      ),
-                    ),
-                    Text(
-                      "600,000,000 IQD",
-                      style: TextStyle(
-                        color: AppColors.secondaryColor,
-                        fontSize: 16,
-                        fontFamily: 'Cairo',
-                        fontWeight: FontWeight.bold,
-                        height: 0,
-                      ),
-                    )
-                  ],
-                ),
-              )
-            ],
-          ),
         ),
       ),
     );
@@ -168,7 +103,7 @@ class photoConatiner extends StatelessWidget {
     return Container(
       width: 161,
       height: 155,
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         borderRadius: BorderRadius.all(
           Radius.circular(5),
         ),

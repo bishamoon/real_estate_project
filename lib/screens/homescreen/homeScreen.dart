@@ -166,7 +166,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         String categoryText = index == 0
                             ? "شقة"
                             : index == 1
-                                ? "منزل"
+                                ? "بيت"
                                 : index == 2
                                     ? "بناية"
                                     : index == 3
@@ -260,7 +260,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       height: 260,
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,
-                        itemCount: _allBuildengs.length,
+                        itemCount:
+                            _allBuildengs.length < 4 ? _allBuildengs.length : 4,
                         itemBuilder: (BuildContext context, int index) {
                           final building = _allBuildengs[index];
 
@@ -273,6 +274,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             noBed: building.buildingInfo.numberRooms,
                             noKitchen: building.buildingInfo.numberFloors,
                             noBath: building.buildingInfo.numberServers,
+                            context: context,
+                            id: building.id,
                           );
                         },
                       ),
@@ -349,7 +352,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       height: 110,
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,
-                        itemCount: _nearMeBuildings.length,
+                        itemCount: _nearMeBuildings.length < 4
+                            ? _nearMeBuildings.length
+                            : 4,
                         itemBuilder: (BuildContext context, int index) {
                           //edit it based on model near me ...
                           final building = _nearMeBuildings[index];
@@ -363,6 +368,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             noKitchen: building.buildingInfo.numberFloors,
                             noBath: building.buildingInfo.nzal,
                             type: building.typeBuild.name,
+                            context: context,
+                            id: building.id,
                           );
                         },
                       ),
@@ -383,12 +390,12 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void navigateToCategoryPage(BuildContext context, String categoryText) {
-    if (categoryText == "منزل") {
+    if (categoryText == "بيت") {
       Navigator.push(
           context,
           MaterialPageRoute(
               builder: (context) => const ApartmentsScreen(
-                    type: "منزل",
+                    type: "بيت",
                   )));
     } else if (categoryText == "شقة") {
       Navigator.push(

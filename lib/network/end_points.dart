@@ -8,7 +8,8 @@ class EndPoints {
 
   static const signInUrl = "/admin/auth/signin";
   static const signUpUrl = "/admin/auth/signup";
-  static const allBuilding = "/admin/building/getAllBuilding?size=30";
+  static const allBuilding = "/admin/building/getAllBuilding?size=10";
   static const nearMeBuildings = "/admin/building/getNearMe";
-  static const buildingsByType = "/admin/building/getAlltypeBuild?size=30";
+  static const buildingsByType = "/admin/building/getAlltypeBuild?size=10";
+  static const buildingById = "/admin/building";
 }

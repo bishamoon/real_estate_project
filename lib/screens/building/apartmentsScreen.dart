@@ -133,6 +133,8 @@ class _ApartmentsScreenState extends State<ApartmentsScreen> {
                     noKitchen: building.buildingInfo.numberFloors,
                     noBath: building.buildingInfo.numberServers,
                     type: widget.type,
+                    context: context,
+                    id: building.id,
                   );
                 },
               );

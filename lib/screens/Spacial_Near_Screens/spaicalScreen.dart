@@ -101,6 +101,8 @@ class _SpacialScreenState extends State<SpacialScreen> {
                       noKitchen: building.buildingInfo.numberFloors,
                       noBath: building.buildingInfo.nzal,
                       type: building.typeBuild.name,
+                      context: context,
+                      id: building.id,
                     ),
                   );
                 },
