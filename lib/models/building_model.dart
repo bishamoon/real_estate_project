@@ -1,23 +1,30 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 class BuildingModel {
-  final bool success;
+  final String code;
   final List<DataBuildingModel> data;
-
+  final bool success;
+  final String message;
   BuildingModel({
-    required this.success,
+    required this.code,
     required this.data,
+    required this.success,
+    required this.message,
   });
 
   factory BuildingModel.fromJson(Map<String, dynamic> json) => BuildingModel(
-        success: json["success"],
+        code: json['code'],
         data: List<DataBuildingModel>.from(
-            json["data"].map((x) => DataBuildingModel.fromJson(x))),
+            json['data'].map((x) => DataBuildingModel.fromJson(x))),
+        success: json['success'],
+        message: json['message'],
       );
 }
 
 class DataBuildingModel {
   final String id;
+  final String userId;
   final String name;
-  final DateTime date;
+  final String date;
   final int cost;
   final String description;
   final int phoneNumber;
@@ -25,44 +32,83 @@ class DataBuildingModel {
   final int tileTypeId;
   final int statusId;
   final int typeBuildId;
+  final User user;
   final BuildingInfo buildingInfo;
-  final Status tileType;
-  final Status status;
-  final Status typeBuild;
+  final TileType tileType;
+  final TileType status;
+  final TileType typeBuild;
 
-  DataBuildingModel({
-    required this.id,
-    required this.name,
-    required this.date,
-    required this.cost,
-    required this.description,
-    required this.phoneNumber,
-    required this.isAvailable,
-    required this.tileTypeId,
-    required this.statusId,
-    required this.typeBuildId,
-    required this.buildingInfo,
-    required this.tileType,
-    required this.status,
-    required this.typeBuild,
-  });
+  DataBuildingModel(
+      {required this.id,
+      required this.userId,
+      required this.name,
+      required this.date,
+      required this.cost,
+      required this.description,
+      required this.phoneNumber,
+      required this.isAvailable,
+      required this.tileTypeId,
+      required this.statusId,
+      required this.typeBuildId,
+      required this.user,
+      required this.buildingInfo,
+      required this.tileType,
+      required this.status,
+      required this.typeBuild});
 
   factory DataBuildingModel.fromJson(Map<String, dynamic> json) =>
       DataBuildingModel(
-        id: json["id"],
-        name: json["name"],
-        date: DateTime.parse(json["date"]),
-        cost: json["cost"],
-        description: json["description"],
-        phoneNumber: json["phoneNumber"],
-        isAvailable: json["isAvailable"],
-        tileTypeId: json["tileTypeId"],
-        statusId: json["statusId"],
-        typeBuildId: json["typeBuildId"],
-        buildingInfo: BuildingInfo.fromJson(json["buildingInfo"]),
-        tileType: Status.fromJson(json["tileType"]),
-        status: Status.fromJson(json["status"]),
-        typeBuild: Status.fromJson(json["typeBuild"]),
+        id: json['id'],
+        userId: json['userId'],
+        name: json['name'],
+        date: json['date'],
+        cost: json['cost'],
+        description: json['description'],
+        phoneNumber: json['phoneNumber'],
+        isAvailable: json['isAvailable'],
+        tileTypeId: json['tileTypeId'],
+        statusId: json['statusId'],
+        typeBuildId: json['typeBuildId'],
+        user: User.fromJson(json['user']),
+        buildingInfo: BuildingInfo.fromJson(json['buildingInfo']),
+        tileType: TileType.fromJson(json['tileType']),
+        status: TileType.fromJson(json['status']),
+        typeBuild: TileType.fromJson(json['typeBuild']),
+      );
+}
+
+class User {
+  final String id;
+  final String email;
+  final String name;
+  final String password;
+  final String roleId;
+  final String address;
+  final String settingId;
+  final String createdAt;
+  final String updatedAt;
+
+  User(
+      {required this.id,
+      required this.email,
+      required this.name,
+      required this.password,
+      required this.roleId,
+      required this.address,
+      required this.settingId,
+      required this.createdAt,
+      required this.updatedAt});
+
+  factory User.fromJson(Map<String, dynamic> json) => User(
+        id: json['id'],
+        email: json['email'],
+        name: json['name'],
+        password: json['password'],
+        roleId: json['roleId'],
+        address: json['address'],
+        settingId: json['settingId'],
+        createdAt: json['createdAt'],
+        updatedAt: json['updatedAt'],
       );
 }
 
@@ -85,63 +131,54 @@ class BuildingInfo {
   final String town;
   final String buildingInfoId;
 
-  BuildingInfo({
-    required this.id,
-    required this.numberRooms,
-    required this.numberServers,
-    required this.numberFloors,
-    required this.age,
-    required this.nzal,
-    required this.hotKatchen,
-    required this.katchenNumber,
-    required this.pool,
-    required this.laundryRoom,
-    required this.gardenArea,
-    required this.garageArea,
-    required this.photos,
-    required this.area,
-    required this.map,
-    required this.town,
-    required this.buildingInfoId,
-  });
+  BuildingInfo(
+      this.id,
+      this.numberRooms,
+      this.numberServers,
+      this.numberFloors,
+      this.age,
+      this.nzal,
+      this.hotKatchen,
+      this.katchenNumber,
+      this.pool,
+      this.laundryRoom,
+      this.gardenArea,
+      this.garageArea,
+      this.photos,
+      this.area,
+      this.map,
+      this.town,
+      this.buildingInfoId);
 
   factory BuildingInfo.fromJson(Map<String, dynamic> json) => BuildingInfo(
-        id: json["id"],
-        numberRooms: json["numberRooms"],
-        numberServers: json["numberServers"],
-        numberFloors: json["numberFloors"],
-        age: json["age"],
-        nzal: json["nzal"],
-        hotKatchen: json["HotKatchen"],
-        katchenNumber: json["katchenNumber"],
-        pool: json["pool"],
-        laundryRoom: json["laundryRoom"],
-        gardenArea: json["gardenArea"],
-        garageArea: json["garageArea"],
-        photos: List<String>.from(json["photos"].map((x) => x)),
-        area: json["area"],
-        map: json["map"],
-        town: json["town"],
-        buildingInfoId: json["buildingInfoId"],
+        json['id'],
+        json['numberRooms'],
+        json['numberServers'],
+        json['numberFloors'],
+        json['age'],
+        json['nzal'],
+        json['hotKatchen'],
+        json['katchenNumber'],
+        json['pool'],
+        json['laundryRoom'],
+        json['gardenArea'],
+        json['garageArea'],
+        List<String>.from(json['photos'].map((x) => x)),
+        json['area'],
+        json['map'],
+        json['town'],
+        json['buildingInfoId'],
       );
 }
 
-class Status {
+class TileType {
   final int id;
   final String name;
 
-  Status({
-    required this.id,
-    required this.name,
-  });
+  TileType({required this.id, required this.name});
 
-  factory Status.fromJson(Map<String, dynamic> json) => Status(
-        id: json["id"],
-        name: json["name"],
+  factory TileType.fromJson(Map<String, dynamic> json) => TileType(
+        id: json['id'],
+        name: json['name'],
       );
-
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "name": name,
-      };
 }

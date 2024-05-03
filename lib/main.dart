@@ -5,6 +5,7 @@ import 'package:real_estate/screens/Spacial_Near_Screens/nearMeScreen.dart';
 import 'package:real_estate/screens/Spacial_Near_Screens/spaicalScreen.dart';
 import 'package:real_estate/screens/dashboard/dashboard_screen.dart';
 import 'package:real_estate/screens/homescreen/homeScreen.dart';
+import 'package:real_estate/screens/profile/profile.dart';
 
 import 'screens/auth/forgetpassword.dart';
 import 'screens/auth/signInScreen.dart';
@@ -29,8 +30,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         scaffoldBackgroundColor: AppColors.backgroundColor,
       ),
-      home: isLoggedIn != null ? const DashBoardScreen() : const SignInScreen(),
-      // home: const SignInScreen(),
+     home: isLoggedIn != null ? const DashBoardScreen() : const SignInScreen(),
+      //  home: const HomeScreen(),
       routes: {
         '/SignInScreen': (context) => const SignInScreen(),
         '/SignUpScreen': (context) => const SignUpScreen(),

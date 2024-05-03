@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:real_estate/componets/appColors.dart';
 import 'package:real_estate/screens/fav/favoriteScreen.dart';
 import 'package:real_estate/screens/homescreen/homeScreen.dart';
+import 'package:real_estate/screens/profile/profile.dart';
 import 'package:real_estate/screens/search/searchScreen.dart';
 
 class DashBoardScreen extends StatefulWidget {
@@ -15,7 +16,7 @@ final List<Widget> screens = [
   const HomeScreen(),
   const SearchScreen(),
   const FavoriteScreen(),
-  const Text('person'),
+  const Profile(),
 ];
 int _currentIndex = 0;
 
@@ -49,11 +50,9 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                     });
                   },
                 ),
-                
                 const SizedBox(),
                 const SizedBox(),
                 const SizedBox(),
-                
                 GestureDetector(
                   child: Image.asset(
                     "assets/img/heart.png",
@@ -67,7 +66,11 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                 ),
                 GestureDetector(
                   child: Image.asset("assets/img/person.png"),
-                  onTap: () {},
+                  onTap: () {
+                    setState(() {
+                      _currentIndex = 3;
+                    });
+                  },
                 ),
               ],
             ),
