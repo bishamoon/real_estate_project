@@ -7,7 +7,7 @@ class OnBoarding3 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-   // Size screenSize = MediaQuery.of(context).size;
+    // Size screenSize = MediaQuery.of(context).size;
     return Scaffold(
       body: Stack(children: [
         // Half oval
@@ -38,7 +38,7 @@ class OnBoarding3 extends StatelessWidget {
             top: 460,
             child: SizedBox(
               child: const Text(
-                'ابحث عن منزلك بسهولة',
+                'استعد لاكتشاف منزل\n أحلامك بسهولة ويسر',
                 style: TextStyle(
                     fontSize: 27.0,
                     fontWeight: FontWeight.w800,
@@ -48,10 +48,9 @@ class OnBoarding3 extends StatelessWidget {
             )),
         Positioned(
           left: 55,
-          top: 510,
+          top: 550,
           child: SizedBox(
-            child: Text(
-                'اكتشف أهم خمس أولويات لديك سواء كانت السعر  \n او الموقع.',
+            child: Text(' اكتشف عالمًا جديدًا من العقارات مع تطبيقنا المبتكر',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: AppColors.gray,

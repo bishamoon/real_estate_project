@@ -88,7 +88,11 @@ class _ProfileState extends State<Profile> {
                           fontWeight: FontWeight.w700,
                         )),
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        setState(() {
+                          Navigator.pushNamed(context, "/EditScreen");
+                        });
+                      },
                       child: Image.asset("assets/img/edit.png"),
                     ),
                   ],
@@ -197,13 +201,13 @@ class _ProfileState extends State<Profile> {
                         houseName: building.name,
                         area: building.buildingInfo.area,
                         imgUrl: "assets/img/houseimg.png",
-                        location: building.buildingInfo.town,
+                        location: building.buildingInfo.map,
                         price: building.cost,
                         noBed: building.buildingInfo.numberRooms,
-                        noKitchen: building.buildingInfo.numberFloors,
+                        noKitchen: building.buildingInfo.katchenNumber,
                         noBath: building.buildingInfo.numberServers,
-                        context: context,
                         type: building.typeBuild.name,
+                        context: context,
                         id: building.id,
                       );
                     },

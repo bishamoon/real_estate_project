@@ -5,10 +5,11 @@ import 'package:real_estate/screens/Spacial_Near_Screens/nearMeScreen.dart';
 import 'package:real_estate/screens/Spacial_Near_Screens/spaicalScreen.dart';
 import 'package:real_estate/screens/dashboard/dashboard_screen.dart';
 import 'package:real_estate/screens/homescreen/homeScreen.dart';
+import 'package:real_estate/screens/onBoarding/logo_screen.dart';
+import 'package:real_estate/screens/onBoarding/onboarding_screen.dart';
 import 'package:real_estate/screens/profile/editProfile.dart';
 import 'package:real_estate/screens/profile/profile.dart';
 import 'package:real_estate/screens/search/searchScreen.dart';
-
 import 'screens/auth/forgetpassword.dart';
 import 'screens/auth/signInScreen.dart';
 import 'screens/auth/signUpScreen.dart';
@@ -27,13 +28,19 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isLoggedIn = SharedHelper.getData(key: "token");
+    final isFirstTime = SharedHelper.getData(key: "onBoarding");
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         scaffoldBackgroundColor: AppColors.backgroundColor,
       ),
-        home: isLoggedIn != null ? const DashBoardScreen() : const SignInScreen(),
-     // home: const SearchScreen(),
+      //home: isLoggedIn != null ? const DashBoardScreen() : const SignInScreen(),
+     // home: const LogoScreen(),
+      home: isFirstTime != null
+          ? isLoggedIn != null
+              ? DashBoardScreen()
+              : SignInScreen()
+          : LogoScreen(),
       routes: {
         '/SignInScreen': (context) => const SignInScreen(),
         '/SignUpScreen': (context) => const SignUpScreen(),
@@ -43,6 +50,8 @@ class MyApp extends StatelessWidget {
         "/dashBoard": (context) => const DashBoardScreen(),
         "/SpacialScreen": (context) => const SpacialScreen(),
         "/NearMeScreen": (context) => const NearMeScreen(),
+        "/EditScreen": (context) => const EditProfile(),
+        "/SearchScreen":(context) => const SearchScreen(),
       },
     );
   }

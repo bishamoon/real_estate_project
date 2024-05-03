@@ -54,6 +54,11 @@ class _onBoardingScreenState extends State<onBoardingScreen> {
               children: [
                 GestureDetector(
                   onTap: () {
+                    if (_controller.page == 2) {
+                      setState(() {
+                        Navigator.pushNamed(context, "/SignUpScreen");
+                      });
+                    }
                     _controller.nextPage(
                         duration: Duration(milliseconds: 500),
                         curve: Curves.easeIn);

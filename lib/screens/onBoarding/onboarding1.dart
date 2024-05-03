@@ -38,7 +38,7 @@ class OnBoarding1 extends StatelessWidget {
             top: 460,
             child: SizedBox(
               child: const Text(
-                'ابحث عن منزلك بسهولة',
+                'مرحبًا بك في تطبيقنا',
                 style: TextStyle(
                     fontSize: 27.0,
                     fontWeight: FontWeight.w800,
@@ -51,7 +51,7 @@ class OnBoarding1 extends StatelessWidget {
           top: 510,
           child: SizedBox(
             child: Text(
-                'اكتشف أهم خمس أولويات لديك سواء كانت السعر  \n او الموقع.',
+                'مرحبًا بك في تطبيق العقارات الخاص بنا! اكتشف منازلك \n المحتملة واستثماراتك العقارية بسهولة',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: AppColors.gray,

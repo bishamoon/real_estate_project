@@ -17,11 +17,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _password = TextEditingController();
-  final TextEditingController _bioController = TextEditingController(text: "bio");
+  final TextEditingController _addressController = TextEditingController();
+
+  final TextEditingController _bioController =
+      TextEditingController(text: "bio");
   final _avatar = TextEditingController(text: "asdds");
   final _dob = TextEditingController(text: "2000-10-10");
   final _gender = TextEditingController(text: "male");
-  final _address = TextEditingController(text:"baghdad");
+  // final _address = TextEditingController(text: "baghdad");
   bool passwordsMatch = true;
   bool _obscureText = false;
   bool _isLoading = false;
@@ -39,7 +42,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         "avatar": _avatar.text,
         "bio": _bioController.text,
         "gender": _gender.text,
-        "address": _address.text,
+        "address": _addressController.text,
         "dob": _dob.text,
       });
 
@@ -164,6 +167,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ),
                 ),
                 defaultTextField(
+                  controller: _addressController,
+                  hintText: "      المدينة",
+                  validator: (p0) {},
+                  onChanged: (p0) {},
+                  keyboardType: TextInputType.name,
+                ),
+                defaultTextField(
                   obscureText: _obscureText,
                   controller: _password,
                   hintText: "كلمة المرور",
@@ -208,7 +218,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             setState(() {
                               signUp();
                             });
-                            // create new account
                           },
                           child: Container(
                             width: 380,

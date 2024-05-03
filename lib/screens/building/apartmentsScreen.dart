@@ -63,7 +63,11 @@ class _ApartmentsScreenState extends State<ApartmentsScreen> {
                       shape: BoxShape.circle,
                       color: AppColors.iconBackgroundColor),
                   child: Image.asset("assets/img/search.png")),
-              onTap: () {},
+              onTap: () {
+                setState(() {
+                  Navigator.pushNamed(context, "/SearchScreen");
+                });
+              },
             ),
           ),
         ],
@@ -127,12 +131,12 @@ class _ApartmentsScreenState extends State<ApartmentsScreen> {
                     houseName: building.name,
                     area: building.buildingInfo.area,
                     imgUrl: "assets/img/houseimg.png",
-                    location: building.buildingInfo.town,
+                    location: building.buildingInfo.map,
                     price: building.cost,
                     noBed: building.buildingInfo.numberRooms,
-                    noKitchen: building.buildingInfo.numberFloors,
+                    noKitchen: building.buildingInfo.katchenNumber,
                     noBath: building.buildingInfo.numberServers,
-                    type: widget.type,
+                    type: building.typeBuild.name,
                     context: context,
                     id: building.id,
                   );

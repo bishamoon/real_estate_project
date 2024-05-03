@@ -8,6 +8,11 @@ import 'package:real_estate/network/end_points.dart';
 import 'package:real_estate/network/http_helper.dart';
 import 'package:real_estate/network/shared_helper.dart';
 import 'package:real_estate/screens/building/apartmentsScreen.dart';
+import 'package:real_estate/screens/building/building.dart';
+import 'package:real_estate/screens/building/housesScreen.dart';
+import 'package:real_estate/screens/building/land.dart';
+import 'package:real_estate/screens/building/office.dart';
+import 'package:real_estate/screens/building/store.dart';
 
 import '../../componets/widgets/card.dart';
 import '../../componets/widgets/categoryContainer.dart';
@@ -388,11 +393,11 @@ class _HomeScreenState extends State<HomeScreen> {
                             houseName: building.name,
                             area: building.buildingInfo.area,
                             imgUrl: "assets/img/houseimg.png",
-                            location: building.buildingInfo.town,
+                            location: building.buildingInfo.map,
                             price: building.cost,
                             noBed: building.buildingInfo.numberRooms,
-                            noKitchen: building.buildingInfo.numberFloors,
-                            noBath: building.buildingInfo.nzal,
+                            noKitchen: building.buildingInfo.katchenNumber,
+                            noBath: building.buildingInfo.numberServers,
                             type: building.typeBuild.name,
                             context: context,
                             id: building.id,
@@ -420,7 +425,7 @@ class _HomeScreenState extends State<HomeScreen> {
       Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => const ApartmentsScreen(
+              builder: (context) => const HouseScreen(
                     type: "بيت",
                   )));
     } else if (categoryText == "شقة") {
@@ -434,28 +439,28 @@ class _HomeScreenState extends State<HomeScreen> {
       Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => const ApartmentsScreen(
+              builder: (context) => const BuildingsScreen(
                     type: "بناية",
                   )));
     } else if (categoryText == "ارض") {
       Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => const ApartmentsScreen(
+              builder: (context) => const LandsScreen(
                     type: "ارض",
                   )));
     } else if (categoryText == "متجر") {
       Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => const ApartmentsScreen(
+              builder: (context) => const StoresScreen(
                     type: "متجر",
                   )));
     } else if (categoryText == "مكتب") {
       Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => const ApartmentsScreen(
+              builder: (context) => const OfficesScreen(
                     type: "مكتب",
                   )));
     }

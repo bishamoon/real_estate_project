@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 
 import '../../componets/appColors.dart';
 import '../../componets/widgets/defaultTextField.dart';
+import '../../models/user_model.dart';
+import '../../network/end_points.dart';
+import '../../network/http_helper.dart';
+import '../../network/shared_helper.dart';
 
 class EditProfile extends StatefulWidget {
   const EditProfile({super.key});
@@ -14,6 +18,76 @@ class _EditProfileState extends State<EditProfile> {
   TextEditingController _controllerName = TextEditingController();
   TextEditingController _controllerEmail = TextEditingController();
   TextEditingController _controllerpassword = TextEditingController();
+
+  bool _isLoadingAccount = false;
+  @override
+  void initState() {
+    // TODO: implement initState
+    getMyAccount();
+    super.initState();
+  }
+
+  bool _isLoading = false;
+  UserModelData? _user;
+  getMyAccount() async {
+    setState(() {
+      _isLoadingAccount = true;
+    });
+    final id = await SharedHelper.getData(key: "user_id");
+    final response =
+        await HttpHelper.getData(url: "${EndPoints.getUserById}/$id");
+    if (response['success']) {
+      final UserModel data = UserModel.fromJson(response);
+      _user = data.data;
+    } else {
+      _isLoadingAccount = false;
+      print("errror = ${response['message']}");
+    }
+    _isLoadingAccount = false;
+    setState(() {});
+  }
+
+  updateAccount() async {
+    try {
+      setState(() {
+        _isLoading = true;
+      });
+      final response =
+          await HttpHelper.postData(url: EndPoints.signInUrl, body: {
+        "name": _controllerName.text,
+        "email": _controllerEmail.text,
+        "password": _controllerpassword.text,
+      });
+
+      if (response["success"]) {
+        final data = UserModel.fromJson(response);
+
+        await SharedHelper.saveData(key: "user_name", value: data.data.name);
+        await SharedHelper.saveData(key: "user_id", value: data.data.id);
+        await SharedHelper.saveData(
+            key: "user_password", value: data.data.password);
+
+        if (context.mounted) {
+          Navigator.pushNamed(context, "/dashBoard");
+        }
+        _isLoading = false;
+      } else {
+        _isLoading = false;
+        showError(response["message"]);
+      }
+    } catch (e) {
+      _isLoading = false;
+      print("error in update account = $e");
+    }
+    setState(() {});
+  }
+
+  showError(String error) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(error),
+      duration: const Duration(seconds: 1),
+    ));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,11 +106,15 @@ class _EditProfileState extends State<EditProfile> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
                       child: Image.asset("assets/img/ep_arrow-left-bold.png"),
                     ),
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        //save editing
+                      },
                       child: Image.asset("assets/img/ok.png"),
                     ),
                   ],
@@ -60,7 +138,9 @@ class _EditProfileState extends State<EditProfile> {
                       height: 5,
                     ),
                     Text(
-                      "سارة فلان ",
+                      _isLoadingAccount
+                          ? "جاري التحميل..."
+                          : _user?.name ?? "زائر",
                       style: TextStyle(
                         color: AppColors.primaryColor,
                         fontSize: 20,
@@ -115,7 +195,9 @@ class _EditProfileState extends State<EditProfile> {
                 ),
               ),
               defaultTextField(
-                hintText: "سارة احمد",
+                hintText: _isLoadingAccount
+                    ? "جاري التحميل..."
+                    : _user?.name ?? "زائر",
                 controller: _controllerName,
                 validator: (p0) {},
               ),
@@ -140,7 +222,9 @@ class _EditProfileState extends State<EditProfile> {
                 ),
               ),
               defaultTextField(
-                  hintText: "a@g.com",
+                  hintText: _isLoadingAccount
+                      ? "جاري التحميل..."
+                      : _user?.email ?? "زائر",
                   controller: _controllerEmail,
                   validator: (p0) {},
                   keyboardType: TextInputType.emailAddress),
@@ -168,7 +252,40 @@ class _EditProfileState extends State<EditProfile> {
                   hintText: "********",
                   controller: _controllerpassword,
                   validator: (p0) {},
-                  keyboardType: TextInputType.visiblePassword)
+                  keyboardType: TextInputType.visiblePassword),
+              SizedBox(
+                height: 5,
+              ),
+              Container(
+                width: 150,
+                height: 52,
+                decoration: ShapeDecoration(
+                  color: Colors.red,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                ),
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).pushNamedAndRemoveUntil(
+                        '/SignInScreen', (Route<dynamic> route) => false);
+                    SharedHelper.removeData(key: "token");
+                    SharedHelper.removeData(key: "user_id");
+                  },
+                  child: Center(
+                    child: Text(
+                      "تسجيل الخروج",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 17,
+                        fontFamily: 'Cairo',
+                        fontWeight: FontWeight.w700,
+                        height: 0,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
         ),
