@@ -60,7 +60,7 @@ class _NearMeScreenState extends State<NearMeScreen> {
         ],
         title: const Center(
           child: Text(
-            'المنازل القريبة',
+            'العقارات القريبة',
             textAlign: TextAlign.center,
             style: TextStyle(
               color: AppColors.secondaryColor,

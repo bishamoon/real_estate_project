@@ -3,8 +3,10 @@ import 'package:real_estate/componets/widgets/defaultsearchField.dart';
 import 'package:real_estate/componets/widgets/is_loading_widget.dart';
 import 'package:real_estate/componets/widgets/nearbyCard.dart';
 import 'package:real_estate/models/building_model.dart';
+import 'package:real_estate/models/user_model.dart';
 import 'package:real_estate/network/end_points.dart';
 import 'package:real_estate/network/http_helper.dart';
+import 'package:real_estate/network/shared_helper.dart';
 import 'package:real_estate/screens/building/apartmentsScreen.dart';
 
 import '../../componets/widgets/card.dart';
@@ -26,11 +28,15 @@ class _HomeScreenState extends State<HomeScreen> {
 
   bool _isLoadingALlBuildings = false;
   bool _isLoadingNearBuildings = false;
+  bool _isLoadingAccount = false;
+
+  UserModelData? _user;
 
   @override
   void initState() {
     getAllBuildings();
-    getNearBuildings();
+    // getNearBuildings();
+    getMyAccount();
     super.initState();
   }
 
@@ -64,6 +70,24 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {});
   }
 
+  getMyAccount() async {
+    setState(() {
+      _isLoadingAccount = true;
+    });
+    final id = await SharedHelper.getData(key: "user_id");
+    final response =
+        await HttpHelper.getData(url: "${EndPoints.getUserById}/$id");
+    if (response['success']) {
+      final UserModel data = UserModel.fromJson(response);
+      _user = data.data;
+    } else {
+      _isLoadingAccount = false;
+      print("errror = ${response['message']}");
+    }
+    _isLoadingAccount = false;
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Directionality(
@@ -81,9 +105,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Column(
+                    Column(
                       children: [
-                        Padding(
+                        const Padding(
                           padding: EdgeInsets.only(right: 12.0),
                           child: Text(
                             'مرحبا ,',
@@ -98,11 +122,13 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ),
                         Padding(
-                          padding: EdgeInsets.only(right: 12.0),
+                          padding: const EdgeInsets.only(right: 12.0),
                           child: Text(
-                            'نور سعد',
+                            _isLoadingAccount
+                                ? "جاري التحميل..."
+                                : _user?.name ?? "زائر",
                             textAlign: TextAlign.right,
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: Colors.black,
                               fontSize: 16,
                               fontFamily: 'Cairo',

@@ -17,9 +17,9 @@ class SignInScreen extends StatefulWidget {
 
 class _SignInScreenState extends State<SignInScreen> {
   final TextEditingController _emailController =
-      TextEditingController(text: "noor@gmail.com");
+      TextEditingController(text: "noorsaadjaba78@gmail.com");
   final TextEditingController _password =
-      TextEditingController(text: "12421221dswa");
+      TextEditingController(text: "123456789");
   bool _obscureText = true;
   bool _isLoading = false;
 
@@ -38,6 +38,7 @@ class _SignInScreenState extends State<SignInScreen> {
         final data = SignInModel.fromJson(response);
 
         await SharedHelper.saveData(key: "token", value: data.data.accessToken);
+        await SharedHelper.saveData(key: "user_id", value: data.data.id);
         if (context.mounted) {
           Navigator.pushNamed(context, "/dashBoard");
         }
