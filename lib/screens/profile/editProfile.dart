@@ -12,7 +12,7 @@ class EditProfile extends StatefulWidget {
 
 class _EditProfileState extends State<EditProfile> {
   TextEditingController _controllerName = TextEditingController();
-  TextEditingController _controllerPhoneNumber = TextEditingController();
+  TextEditingController _controllerEmail = TextEditingController();
   TextEditingController _controllerpassword = TextEditingController();
 
   @override
@@ -125,7 +125,7 @@ class _EditProfileState extends State<EditProfile> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "رقم الهاتف",
+                      "البريد الالكتروني",
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 15,
@@ -140,10 +140,10 @@ class _EditProfileState extends State<EditProfile> {
                 ),
               ),
               defaultTextField(
-                  hintText: "07xxxxxxxxx",
-                  controller: _controllerPhoneNumber,
+                  hintText: "a@g.com",
+                  controller: _controllerEmail,
                   validator: (p0) {},
-                  keyboardType: TextInputType.numberWithOptions()),
+                  keyboardType: TextInputType.emailAddress),
               Padding(
                 padding: const EdgeInsets.all(12.0),
                 child: Row(

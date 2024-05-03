@@ -157,7 +157,7 @@ class BuildingInfo {
         json['numberFloors'],
         json['age'],
         json['nzal'],
-        json['hotKatchen'],
+        json['HotKatchen'],
         json['katchenNumber'],
         json['pool'],
         json['laundryRoom'],

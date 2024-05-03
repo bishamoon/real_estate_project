@@ -35,7 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     getAllBuildings();
-    // getNearBuildings();
+    getNearBuildings();
     getMyAccount();
     super.initState();
   }

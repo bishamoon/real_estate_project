@@ -80,7 +80,7 @@ class _ProfileState extends State<Profile> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text("الصفحة الشخصية",
+                    const Text("الصفحة الشخصية",
                         style: TextStyle(
                           color: AppColors.primaryColor,
                           fontSize: 20,
@@ -182,10 +182,14 @@ class _ProfileState extends State<Profile> {
                     ),
                   );
                 } else if (_myBuildings.isNotEmpty) {
-                  return ListView.builder(
+                  return ListView.separated(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 10, horizontal: 10),
                     itemCount: _myBuildings.length,
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
+                    separatorBuilder: (context, index) =>
+                        const SizedBox(height: 10),
                     itemBuilder: (BuildContext context, int index) {
                       final building = _myBuildings[index];
 
