@@ -209,6 +209,9 @@ class _ProfileState extends State<Profile> {
                         type: building.typeBuild.name,
                         context: context,
                         id: building.id,
+                        delete: () {
+                          // delete real estate
+                        },
                       );
                     },
                   );

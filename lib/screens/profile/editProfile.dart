@@ -47,17 +47,21 @@ class _EditProfileState extends State<EditProfile> {
     setState(() {});
   }
 
+  //didn't work though ...
   updateAccount() async {
     try {
       setState(() {
         _isLoading = true;
       });
-      final response =
-          await HttpHelper.postData(url: EndPoints.signInUrl, body: {
-        "name": _controllerName.text,
-        "email": _controllerEmail.text,
-        "password": _controllerpassword.text,
-      });
+      final id = await SharedHelper.getData(key: "user_id");
+
+      final response = await HttpHelper.updateData(
+          url: "${EndPoints.updateUser}/$id",
+          body: {
+            "name": _controllerName.text,
+            "email": _controllerEmail.text,
+            "password": _controllerpassword.text,
+          });
 
       if (response["success"]) {
         final data = UserModel.fromJson(response);
@@ -114,6 +118,9 @@ class _EditProfileState extends State<EditProfile> {
                     GestureDetector(
                       onTap: () {
                         //save editing
+                        setState(() {
+                          updateAccount();
+                        });
                       },
                       child: Image.asset("assets/img/ok.png"),
                     ),

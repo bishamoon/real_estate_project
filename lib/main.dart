@@ -34,13 +34,13 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         scaffoldBackgroundColor: AppColors.backgroundColor,
       ),
-      //home: isLoggedIn != null ? const DashBoardScreen() : const SignInScreen(),
+      home: isLoggedIn != null ? const DashBoardScreen() : const SignInScreen(),
      // home: const LogoScreen(),
-      home: isFirstTime != null
-          ? isLoggedIn != null
-              ? DashBoardScreen()
-              : SignInScreen()
-          : LogoScreen(),
+      // home: isFirstTime != null
+      //     ? isLoggedIn != null
+      //         ? DashBoardScreen()
+      //         : SignInScreen()
+      //     : LogoScreen(),
       routes: {
         '/SignInScreen': (context) => const SignInScreen(),
         '/SignUpScreen': (context) => const SignUpScreen(),

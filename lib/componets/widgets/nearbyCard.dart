@@ -15,12 +15,14 @@ Widget nearByCard({
   required String type,
   required BuildContext context,
   required String id,
+  VoidCallback? delete,
 }) {
   return GestureDetector(
     onTap: () {
       Navigator.push(context,
           MaterialPageRoute(builder: (context) => HouseDetails1(id: id)));
     },
+    onDoubleTap: delete,
     child: Padding(
       padding: const EdgeInsets.only(left: 5),
       child: Container(

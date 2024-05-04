@@ -12,5 +12,5 @@ class EndPoints {
   static const buildingsByType = "building/getAlltypeBuild?size=10";
   static const buildingById = "building";
   static const getUserById = "user";
-  static const updateUser = "";
+  static const updateUser = "user/";
 }
