@@ -9,6 +9,7 @@ import 'package:real_estate/screens/onBoarding/logo_screen.dart';
 import 'package:real_estate/screens/onBoarding/onboarding_screen.dart';
 import 'package:real_estate/screens/profile/editProfile.dart';
 import 'package:real_estate/screens/profile/profile.dart';
+import 'package:real_estate/screens/search/results.dart';
 import 'package:real_estate/screens/search/searchScreen.dart';
 import 'screens/auth/forgetpassword.dart';
 import 'screens/auth/signInScreen.dart';
@@ -34,8 +35,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         scaffoldBackgroundColor: AppColors.backgroundColor,
       ),
-      home: isLoggedIn != null ? const DashBoardScreen() : const SignInScreen(),
-     // home: const LogoScreen(),
+      //home: isLoggedIn != null ? const DashBoardScreen() : const SignInScreen(),
+      home: const SearchScreen(),
       // home: isFirstTime != null
       //     ? isLoggedIn != null
       //         ? DashBoardScreen()
@@ -52,6 +53,7 @@ class MyApp extends StatelessWidget {
         "/NearMeScreen": (context) => const NearMeScreen(),
         "/EditScreen": (context) => const EditProfile(),
         "/SearchScreen":(context) => const SearchScreen(),
+        
       },
     );
   }
