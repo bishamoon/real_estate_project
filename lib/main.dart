@@ -36,12 +36,13 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: AppColors.backgroundColor,
       ),
       //home: isLoggedIn != null ? const DashBoardScreen() : const SignInScreen(),
-      home: const SearchScreen(),
-      // home: isFirstTime != null
-      //     ? isLoggedIn != null
-      //         ? DashBoardScreen()
-      //         : SignInScreen()
-      //     : LogoScreen(),
+      // home: const SearchScreen(),
+
+      home: isFirstTime != null
+          ? isLoggedIn != null
+              ? DashBoardScreen()
+              : SignInScreen()
+          : LogoScreen(),
       routes: {
         '/SignInScreen': (context) => const SignInScreen(),
         '/SignUpScreen': (context) => const SignUpScreen(),
@@ -52,8 +53,7 @@ class MyApp extends StatelessWidget {
         "/SpacialScreen": (context) => const SpacialScreen(),
         "/NearMeScreen": (context) => const NearMeScreen(),
         "/EditScreen": (context) => const EditProfile(),
-        "/SearchScreen":(context) => const SearchScreen(),
-        
+        "/SearchScreen": (context) => const SearchScreen(),
       },
     );
   }

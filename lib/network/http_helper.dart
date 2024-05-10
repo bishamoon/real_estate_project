@@ -41,8 +41,6 @@ class HttpHelper {
             'Content-Type': 'application/json',
             'Authorization': 'bearer ${EndPoints.token}'
           });
-      // .timeout(const Duration(seconds: 10),
-      //         onTimeout: () => throw 'Check Your Internet connection');
 
       return jsonResponse(response);
     } on SocketException {

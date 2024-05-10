@@ -8,17 +8,15 @@ import 'package:real_estate/network/http_helper.dart';
 import '../../componets/appColors.dart';
 
 class ResultsScreen extends StatefulWidget {
-  const ResultsScreen({super.key, required this.type, required this.searchResults});
+  const ResultsScreen({super.key, required this.searchResults});
 
-  final String type;
-   final List<DataBuildingModel> searchResults;
+  final List<DataBuildingModel> searchResults;
 
   @override
   State<ResultsScreen> createState() => _ResultsScreenState();
 }
 
 class _ResultsScreenState extends State<ResultsScreen> {
-
   bool _isLoading = false;
 
   @override
@@ -52,7 +50,7 @@ class _ResultsScreenState extends State<ResultsScreen> {
         ],
         title: Center(
           child: Text(
-            widget.type,
+            "نتيجة البحث",
             textAlign: TextAlign.center,
             style: const TextStyle(
               color: AppColors.secondaryColor,

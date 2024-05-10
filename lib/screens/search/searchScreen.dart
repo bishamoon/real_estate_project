@@ -26,78 +26,68 @@ class _SearchScreenState extends State<SearchScreen> {
   int selectedIndexNames = 1;
   List<String> estateNames = [
     'شقة',
-    'منزل',
+    'بيت',
     'مكتب',
     'متجر',
     'بناية',
     'ارض',
   ];
   List<String> _places = ['منصور', 'كرادة', 'زيونة', 'الجادرية', 'الاعظمية'];
-  String? _selectedItemTown;
+  String _selectedItemTown = "منصور";
   bool _isRent = false;
 
   final List<DataBuildingModel> _allBuildings = [];
-  bool _isLoadingAllBuildings = false;
-  bool _isLoadingAllTypes = false;
 
-  Future<void> getAllBuildingsBySearch({
-    String? statuss,
-    String? typebuild,
-    String? tiletype,
-  }) async {
+  bool _isLoading = false;
+
+  Future<void> getAllBuildingsBySearch(BuildContext ctx) async {
     try {
       setState(() {
-        _isLoadingAllBuildings = true;
+        _isLoading = true;
       });
 
       final response = await HttpHelper.postData(
-        url: EndPoints.allBuilding,
+        url: EndPoints.getBuildingBySearch,
         body: {
-          'statuss': _isRent,
+          // 'statuss': _isRent,
           'town': _selectedItemTown,
-          'costFrom': _costFromController.text,
-          'costTo': _costToController.text,
-          'areaFrom': _areaFromController,
-          'areaTo': _areaToController.text,
-          'name': _searchController,
-          'typebuild': typebuild,
-          'tiletype': tiletype,
+          'costFrom': int.parse(_costFromController.text.isEmpty
+              ? "1"
+              : _costFromController.text),
+          'costTo': int.parse(_costFromController.text.isEmpty
+              ? "1000000"
+              : _costFromController.text),
+          'areaFrom': int.parse(_areaFromController.text.isEmpty
+              ? "1"
+              : _areaFromController.text),
+          'areaTo': int.parse(
+              _areaToController.text.isEmpty ? "1" : _areaToController.text),
+          'name': _searchController.text,
+          'typebuild': estateNames[selectedIndexNames],
+          // 'tiletype': "",
         },
       );
-
+      print(response);
       if (response['success']) {
-        final model = BuildingModel.fromJson(response['data']);
+        _allBuildings.clear();
+        final model = BuildingModel.fromJson(response);
         _allBuildings.addAll(model.data);
-      } else {}
+        Navigator.push(
+          ctx,
+          MaterialPageRoute(
+            builder: (_) => ResultsScreen(searchResults: _allBuildings),
+          ),
+        );
+      } else {
+        print("error $response");
+      }
     } catch (error) {
     } finally {
       setState(() {
-        _isLoadingAllBuildings = false;
+        _isLoading = false;
       });
     }
   }
-
-  // List _allTypes = [];
-
-  // getAllTypes() async {
-  //   setState(() {
-  //     _isLoadingAllTypes = true;
-  //   });
-  //   final response = await HttpHelper.getData(url: EndPoints.getAllType);
-  //   if (response['success']) {
-  //     final model = TypeModel.fromJson(response);
-  //     _allTypes.addAll(model.data);
-  //   }
-  //   _isLoadingAllTypes = false;
-
-  //   setState(() {});
-  // }
-
-  // @override
-  // void initState() {
-  //   getAllTypes();
-  //   super.initState();
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -394,7 +384,7 @@ class _SearchScreenState extends State<SearchScreen> {
                       value: _selectedItemTown,
                       onChanged: (String? newValue) {
                         setState(() {
-                          _selectedItemTown = newValue;
+                          _selectedItemTown = newValue!;
                         });
                       },
                       style: TextStyle(
@@ -432,39 +422,35 @@ class _SearchScreenState extends State<SearchScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Container(
-                    width: 122,
-                    height: 52,
-                    decoration: ShapeDecoration(
-                      color: AppColors.secondaryColor,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                    ),
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ResultsScreen(
-                                searchResults: _allBuildings, type: "منزل"),
+                  _isLoading
+                      ? Center(child: CircularProgressIndicator())
+                      : Container(
+                          width: 122,
+                          height: 52,
+                          decoration: ShapeDecoration(
+                            color: AppColors.secondaryColor,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
                           ),
-                        );
-                      },
-                      child: Center(
-                        child: Text(
-                          "تطبيق",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 17,
-                            fontFamily: 'Cairo',
-                            fontWeight: FontWeight.w700,
-                            height: 0,
+                          child: GestureDetector(
+                            onTap: () {
+                              getAllBuildingsBySearch(context);
+                            },
+                            child: Center(
+                              child: Text(
+                                "تطبيق",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 17,
+                                  fontFamily: 'Cairo',
+                                  fontWeight: FontWeight.w700,
+                                  height: 0,
+                                ),
+                              ),
+                            ),
                           ),
                         ),
-                      ),
-                    ),
-                  ),
                   Container(
                     width: 122,
                     height: 52,

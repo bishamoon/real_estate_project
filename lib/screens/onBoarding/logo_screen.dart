@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:real_estate/componets/appColors.dart';
+import 'package:real_estate/network/shared_helper.dart';
+import 'package:real_estate/screens/auth/signInScreen.dart';
+import 'package:real_estate/screens/dashboard/dashboard_screen.dart';
 import 'package:real_estate/screens/homescreen/homeScreen.dart';
 import 'package:real_estate/screens/onBoarding/onboarding_screen.dart';
 
@@ -169,10 +172,15 @@ class _LogoScreenState extends State<LogoScreen>
   }
 
   void _navigateToNextScreen() {
+    final isLoggedIn = SharedHelper.getData(key: "token");
+    final isFirstTime = SharedHelper.getData(key: "onBoarding");
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(
-        builder: (context) =>
-            onBoardingScreen(), // Replace with your next screen
+        builder: (context) => isFirstTime != null
+            ? isLoggedIn != null
+                ? DashBoardScreen()
+                : SignInScreen()
+            : onBoardingScreen(),
       ),
     );
   }

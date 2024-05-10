@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:real_estate/componets/appColors.dart';
+import 'package:real_estate/network/shared_helper.dart';
 import 'package:real_estate/screens/onBoarding/onboarding3.dart';
 import 'package:real_estate/screens/onBoarding/onboarding1.dart';
 import 'package:real_estate/screens/onBoarding/onboarding2.dart';
@@ -55,8 +56,10 @@ class _onBoardingScreenState extends State<onBoardingScreen> {
                 GestureDetector(
                   onTap: () {
                     if (_controller.page == 2) {
+                      SharedHelper.saveData(
+                          key: "onBoarding", value: "onBoarding");
                       setState(() {
-                        Navigator.pushNamed(context, "/SignUpScreen");
+                        Navigator.pushNamed(context, "/SignInScreen");
                       });
                     }
                     _controller.nextPage(
