@@ -4,7 +4,6 @@ import 'package:real_estate/models/signinUser_model.dart';
 import 'package:real_estate/network/end_points.dart';
 import 'package:real_estate/network/http_helper.dart';
 import 'package:real_estate/network/shared_helper.dart';
-
 import '../../componets/appColors.dart';
 import '../../componets/widgets/defaultTextField.dart';
 
@@ -34,9 +33,10 @@ class _SignInScreenState extends State<SignInScreen> {
         "password": _password.text,
       });
 
+      print("res : $response");
+
       if (response["success"]) {
         final data = SignInModel.fromJson(response);
-
         await SharedHelper.saveData(key: "token", value: data.data.accessToken);
         await SharedHelper.saveData(key: "user_id", value: data.data.id);
         if (context.mounted) {

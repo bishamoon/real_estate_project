@@ -89,7 +89,9 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                   borderRadius: BorderRadius.circular(100)),
               child: GestureDetector(
                 child: Image.asset("assets/img/write.png"),
-                onTap: () {},
+                onTap: () {
+                  Navigator.pushNamed(context, '/AddNewHouse');
+                },
               ),
             ),
           ),

@@ -2,15 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:real_estate/componets/widgets/cardDetails.dart';
 import 'package:real_estate/componets/widgets/cardSp.dart';
 import 'package:real_estate/models/build_details_model.dart';
-
+import 'package:url_launcher/url_launcher.dart';
 import '../../componets/appColors.dart';
 
-class DescrptionScreen extends StatelessWidget {
+class DescrptionScreen extends StatefulWidget {
   DescrptionScreen({super.key, required this.model});
 
   final BuildingDetails model;
 
+  @override
+  State<DescrptionScreen> createState() => _DescrptionScreenState();
+}
+
+class _DescrptionScreenState extends State<DescrptionScreen> {
   List names = ['الحديقة', 'خدمات', 'غرف نوم', 'مساحة'];
+
   List urlImg = [
     "assets/img/garden.png",
     "assets/img/bathtub.png",
@@ -23,13 +29,25 @@ class DescrptionScreen extends StatelessWidget {
     "assets/img/tile.png",
     "assets/img/map_swimming.png",
   ];
+
   List urlImgSp2 = [
     "assets/img/car.png",
     "assets/img/map_laundry.png",
     "assets/img/floor.png",
   ];
+
   List nameSp = ["مطبخ ساخن", "سيراميك", "مسبح"];
+
   List nameSp2 = ["كراج", "غرفة غسيل", "طوابق"];
+
+  void openMap({required String mapUrl}) async {
+    var launch = Uri(
+      scheme: 'map',
+      path: mapUrl,
+    );
+    await launchUrl(launch);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,7 +59,7 @@ class DescrptionScreen extends StatelessWidget {
             ),
             Center(
               child: Text(
-                model.data.description,
+                widget.model.data.description,
                 style: const TextStyle(
                   color: Colors.grey,
                   fontSize: 15,
@@ -58,23 +76,26 @@ class DescrptionScreen extends StatelessWidget {
               children: <Widget>[
                 cardDetails(
                   name: names[0],
-                  numberofItem: model.data.buildingInfo.garageArea.toString(),
+                  numberofItem:
+                      widget.model.data.buildingInfo.garageArea.toString(),
                   urlOfImg: urlImg[0],
                 ),
                 cardDetails(
                   name: names[1],
                   numberofItem:
-                      model.data.buildingInfo.numberServers.toString(),
+                      widget.model.data.buildingInfo.numberServers.toString(),
                   urlOfImg: urlImg[1],
                 ),
                 cardDetails(
                   name: names[2],
-                  numberofItem: model.data.buildingInfo.numberRooms.toString(),
+                  numberofItem:
+                      widget.model.data.buildingInfo.numberRooms.toString(),
                   urlOfImg: urlImg[2],
                 ),
                 cardDetails(
                   name: names[3],
-                  numberofItem: "${model.data.buildingInfo.area.toString()}م",
+                  numberofItem:
+                      "${widget.model.data.buildingInfo.area.toString()}م",
                   urlOfImg: urlImg[3],
                 ),
               ],
@@ -109,7 +130,7 @@ class DescrptionScreen extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.only(right: 12.0),
                             child: Text(
-                              model.data.user.name,
+                              widget.model.data.user.name,
                               style: const TextStyle(
                                 color: Colors.black,
                                 fontSize: 17,
@@ -185,25 +206,25 @@ class DescrptionScreen extends StatelessWidget {
               spacing: 10,
               runSpacing: 10,
               children: <Widget>[
-                model.data.buildingInfo.hotKatchen
+                widget.model.data.buildingInfo.hotKatchen
                     ? cardSp(
                         name: nameSp[0],
                         urlOfImg: urlImgSp[0],
                       )
                     : const SizedBox(),
-                model.data.buildingInfo.pool
+                widget.model.data.buildingInfo.pool
                     ? cardSp(
                         name: nameSp[2],
                         urlOfImg: urlImgSp[2],
                       )
                     : const SizedBox(),
-                model.data.buildingInfo.garageArea != 0
+                widget.model.data.buildingInfo.garageArea != 0
                     ? cardSp(
                         name: nameSp2[0],
                         urlOfImg: urlImgSp2[0],
                       )
                     : const SizedBox(),
-                model.data.buildingInfo.laundryRoom
+                widget.model.data.buildingInfo.laundryRoom
                     ? cardSp(
                         name: nameSp2[1],
                         urlOfImg: urlImgSp2[1],
@@ -245,7 +266,12 @@ class DescrptionScreen extends StatelessWidget {
                         height: 0,
                       ),
                     ),
-                    onTap: () {},
+                    onTap: () {
+                      openMap(
+                          mapUrl:
+                              widget.model.data.buildingInfo.map.toString() ??
+                                  "url!");
+                    },
                   ),
                 ],
               ),

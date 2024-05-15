@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:real_estate/componets/widgets/defaultsearchField.dart';
 import 'package:real_estate/componets/widgets/is_loading_widget.dart';
 import 'package:real_estate/componets/widgets/nearbyCard.dart';
@@ -50,7 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
       _isLoadingALlBuildings = true;
     });
     final response = await HttpHelper.getData(url: EndPoints.allBuilding);
-    if (response['success']) {
+    if (response['success'] && response != null) {
       final model = BuildingModel.fromJson(response);
       _allBuildengs.addAll(model.data);
     }
@@ -64,7 +65,7 @@ class _HomeScreenState extends State<HomeScreen> {
       _isLoadingNearBuildings = true;
     });
     final response = await HttpHelper.getData(url: EndPoints.nearMeBuildings);
-    if (response['success']) {
+    if (response['success'] && response != null) {
       //change model>>>>>>
       final model = BuildingModel.fromJson(response);
       _nearMeBuildings.addAll(model.data);
@@ -82,7 +83,7 @@ class _HomeScreenState extends State<HomeScreen> {
     final id = await SharedHelper.getData(key: "user_id");
     final response =
         await HttpHelper.getData(url: "${EndPoints.getUserById}/$id");
-    if (response['success']) {
+    if (response['success'] && response != null) {
       final UserModel data = UserModel.fromJson(response);
       _user = data.data;
     } else {
@@ -164,12 +165,15 @@ class _HomeScreenState extends State<HomeScreen> {
                   height: 15,
                 ),
                 defaultSearchField(
+                    readOnly: true,
                     prefix: Image.asset(
                       "assets/img/search.png",
                     ),
                     suffix: GestureDetector(
                       onTap: () {
-                        //go to filter page
+                        setState(() {
+                          Navigator.pushNamed(context, "/SearchScreen");
+                        });
                       },
                       child: Image.asset(
                         "assets/img/fliter.png",

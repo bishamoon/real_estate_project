@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:real_estate/componets/appColors.dart';
 
+import '../../models/building_model.dart';
+import '../../network/end_points.dart';
+import '../../network/http_helper.dart';
+
 class AddNewHouse extends StatefulWidget {
   AddNewHouse({super.key});
 
-  @override
-  State<AddNewHouse> createState() => _AddNewHouseState();
-}
-
-class _AddNewHouseState extends State<AddNewHouse> {
-  int selectedIndexNames = 1;
-  int selectedIndexState = 0;
+  TextEditingController nameController = TextEditingController(text: "name");
+  TextEditingController desController = TextEditingController(text: "des");
+  TextEditingController costController = TextEditingController(text: "12");
+  TextEditingController areaController = TextEditingController(text: "12");
   List<String> estateNames = [
     'شقة',
-    'منزل',
+    'بيت',
     'مكتب',
     'متجر',
     'بناية',
@@ -21,6 +22,14 @@ class _AddNewHouseState extends State<AddNewHouse> {
   ];
 
   List<String> estateState = ['بيع', 'ايجار'];
+  int selectedIndexNames = 1;
+  int selectedIndexState = 0;
+
+  @override
+  State<AddNewHouse> createState() => _AddNewHouseState();
+}
+
+class _AddNewHouseState extends State<AddNewHouse> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -73,7 +82,8 @@ class _AddNewHouseState extends State<AddNewHouse> {
                           borderRadius: BorderRadius.circular(17),
                           color: Colors.white,
                         ),
-                        child: const TextField(
+                        child: TextField(
+                          controller: widget.nameController,
                           decoration: InputDecoration(
                             border: InputBorder.none,
                             hintText: 'اسم العقار',
@@ -111,7 +121,8 @@ class _AddNewHouseState extends State<AddNewHouse> {
                         borderRadius: BorderRadius.circular(17),
                         color: Colors.white,
                       ),
-                      child: const TextField(
+                      child: TextField(
+                        controller: widget.desController,
                         decoration: InputDecoration(
                           border: InputBorder.none, // Remove the default border
                           contentPadding: EdgeInsets.symmetric(
@@ -208,7 +219,7 @@ class _AddNewHouseState extends State<AddNewHouse> {
             ),
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
-              itemCount: estateState.length,
+              itemCount: widget.estateState.length,
               itemBuilder: (BuildContext context, int index) {
                 return buildStateContainer(index);
               },
@@ -235,7 +246,8 @@ class _AddNewHouseState extends State<AddNewHouse> {
                       borderRadius: BorderRadius.circular(17),
                       color: Colors.white,
                     ),
-                    child: const TextField(
+                    child: TextField(
+                      controller: widget.costController,
                       decoration: InputDecoration(
                         border: InputBorder.none,
                         hintText: '200,000,000 ',
@@ -283,7 +295,8 @@ class _AddNewHouseState extends State<AddNewHouse> {
                       borderRadius: BorderRadius.circular(17),
                       color: Colors.white,
                     ),
-                    child: const TextField(
+                    child: TextField(
+                      controller: widget.areaController,
                       decoration: InputDecoration(
                         border: InputBorder.none,
                         hintText: '200 ',
@@ -329,7 +342,10 @@ class _AddNewHouseState extends State<AddNewHouse> {
                     ),
                   ),
                   child: GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      print("nameee: $widget.nameController.text");
+                      Navigator.pushNamed(context, '/AddNewHouse2');
+                    },
                     child: const Row(
                       mainAxisSize: MainAxisSize.min,
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -361,7 +377,7 @@ class _AddNewHouseState extends State<AddNewHouse> {
     return GestureDetector(
       onTap: () {
         setState(() {
-          selectedIndexNames = index;
+          widget.selectedIndexNames = index;
         });
       },
       child: Container(
@@ -370,16 +386,16 @@ class _AddNewHouseState extends State<AddNewHouse> {
         width: 95,
         height: 33,
         decoration: BoxDecoration(
-          color: selectedIndexNames == index
+          color: widget.selectedIndexNames == index
               ? AppColors.primaryColor
               : Colors.white,
           borderRadius: BorderRadius.circular(17),
         ),
         child: Center(
           child: Text(
-            estateNames[index],
+            widget.estateNames[index],
             style: TextStyle(
-              color: selectedIndexNames == index
+              color: widget.selectedIndexNames == index
                   ? Colors.white
                   : AppColors.secondaryColor,
               fontSize: 15,
@@ -396,7 +412,7 @@ class _AddNewHouseState extends State<AddNewHouse> {
     return GestureDetector(
       onTap: () {
         setState(() {
-          selectedIndexState = index;
+          widget.selectedIndexState = index;
         });
       },
       child: Container(
@@ -404,16 +420,16 @@ class _AddNewHouseState extends State<AddNewHouse> {
         width: 160,
         height: 28,
         decoration: BoxDecoration(
-          color: selectedIndexState == index
+          color: widget.selectedIndexState == index
               ? AppColors.primaryColor
               : Colors.white,
           borderRadius: BorderRadius.circular(17),
         ),
         child: Center(
           child: Text(
-            estateState[index],
+            widget.estateState[index],
             style: TextStyle(
-              color: selectedIndexState == index
+              color: widget.selectedIndexState == index
                   ? Colors.white
                   : AppColors.secondaryColor,
               fontSize: 15,

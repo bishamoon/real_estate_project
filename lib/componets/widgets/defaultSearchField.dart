@@ -33,6 +33,7 @@ Widget defaultSearchField({
           borderRadius: BorderRadius.circular(borderRadius),
           color: Colors.white),
       child: TextFormField(
+        
         textAlign: textAlign,
         textDirection: textDirection,
         minLines: minLines,

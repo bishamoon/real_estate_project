@@ -2,9 +2,14 @@ import 'package:flutter/material.dart';
 
 import '../../componets/appColors.dart';
 
-class AddNewHouse2 extends StatelessWidget {
-  const AddNewHouse2({super.key});
+class AddNewHouse2 extends StatefulWidget {
+  AddNewHouse2({super.key});
+  TextEditingController mapController = TextEditingController(text: "url");
+  @override
+  State<AddNewHouse2> createState() => _AddNewHouse2State();
+}
 
+class _AddNewHouse2State extends State<AddNewHouse2> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,6 +44,7 @@ class AddNewHouse2 extends StatelessWidget {
               height: 5,
             ),
             TextField(
+              controller: widget.mapController,
               decoration: InputDecoration(
                 hintText: 'رابط العنوان',
                 hintStyle: TextStyle(
@@ -75,9 +81,37 @@ class AddNewHouse2 extends StatelessWidget {
                 ],
               ),
             ),
-            //button to add new photos of house
             SizedBox(
-              height: 490,
+              height: 10,
+            ),
+            Center(
+                child: Container(
+              width: 122,
+              height: 70,
+              decoration: ShapeDecoration(
+                color: AppColors.secondaryColor,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+              ),
+              child: GestureDetector(
+                onTap: () {},
+                child: Center(
+                  child: Text(
+                    "+",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 30,
+                      fontFamily: 'Cairo',
+                      fontWeight: FontWeight.w700,
+                      height: 0,
+                    ),
+                  ),
+                ),
+              ),
+            )),
+            SizedBox(
+              height: 380,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -92,7 +126,9 @@ class AddNewHouse2 extends StatelessWidget {
                     ),
                   ),
                   child: GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.pushNamed(context, '/AddNewHouse3');
+                    },
                     child: Center(
                       child: Text(
                         "التالي",
@@ -117,7 +153,9 @@ class AddNewHouse2 extends StatelessWidget {
                     ),
                   ),
                   child: GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.popAndPushNamed(context, "/AddNewHouse");
+                    },
                     child: Center(
                       child: Text(
                         "رجوع",

@@ -1,9 +1,9 @@
 import 'package:real_estate/network/shared_helper.dart';
 
 class EndPoints {
-  static const baseUrl = "http://192.168.0.194:5000/admin/";
+  static const baseUrl = "http://192.168.0.193:5000/admin/";
   // for now this your token you should replace it with ""
-  static String token = SharedHelper.getData(key: "token");
+  static String token = SharedHelper.getData(key: "token") ?? "";
 
   static const signInUrl = "auth/signin";
   static const signUpUrl = "auth/signup";
@@ -16,4 +16,5 @@ class EndPoints {
   static const deleteBuilding = "building/";
   static const getBuildingBySearch = "building/getAllBuildingBySearch?size=10";
   static const getAllType = "info/getAllTypeBuild/?size=10";
+  static const addNewHouse = "building/newbuilding";
 }
