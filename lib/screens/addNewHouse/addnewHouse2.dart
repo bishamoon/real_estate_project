@@ -1,15 +1,53 @@
 import 'package:flutter/material.dart';
+import 'package:real_estate/screens/addNewHouse/addNewHouse3.dart';
 
 import '../../componets/appColors.dart';
 
 class AddNewHouse2 extends StatefulWidget {
-  AddNewHouse2({super.key});
-  TextEditingController mapController = TextEditingController(text: "url");
+  AddNewHouse2(
+      {super.key,
+      this.name,
+      this.description,
+      this.cost,
+      this.area,
+      this.selectedIndexNames,
+      this.selectedIndexState});
+
+  final String? name;
+  final String? description;
+  final int? cost;
+  final int? area;
+  final int? selectedIndexNames;
+  final int? selectedIndexState;
   @override
   State<AddNewHouse2> createState() => _AddNewHouse2State();
 }
 
 class _AddNewHouse2State extends State<AddNewHouse2> {
+  TextEditingController mapController = TextEditingController(text: "url");
+  @override
+  void dispose() {
+    mapController.dispose();
+    super.dispose();
+  }
+
+  void _navigateToAddNewHouse3() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => AddNewHouse3(
+          mapUrl: mapController.text,
+          name: widget.name,
+          cost: widget.cost,
+          area: widget.area,
+          description: widget.description,
+          selectedIndexNames: widget.selectedIndexNames,
+          selectedIndexState: widget.selectedIndexState,
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,7 +82,7 @@ class _AddNewHouse2State extends State<AddNewHouse2> {
               height: 5,
             ),
             TextField(
-              controller: widget.mapController,
+              controller: mapController,
               decoration: InputDecoration(
                 hintText: 'رابط العنوان',
                 hintStyle: TextStyle(
@@ -127,7 +165,7 @@ class _AddNewHouse2State extends State<AddNewHouse2> {
                   ),
                   child: GestureDetector(
                     onTap: () {
-                      Navigator.pushNamed(context, '/AddNewHouse3');
+                      _navigateToAddNewHouse3();
                     },
                     child: Center(
                       child: Text(

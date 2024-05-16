@@ -237,9 +237,6 @@ class _DescrptionScreenState extends State<DescrptionScreen> {
               ],
             ),
             const SizedBox(height: 10),
-            const SizedBox(
-              height: 10,
-            ),
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: Row(
@@ -281,7 +278,7 @@ class _DescrptionScreenState extends State<DescrptionScreen> {
               color: Colors.grey, // Adjust color as needed
             ),
             const SizedBox(
-              height: 20,
+              height: 40,
             )
           ],
         ),

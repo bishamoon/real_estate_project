@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:real_estate/componets/appColors.dart';
-
 import '../../componets/widgets/inputDetails.dart';
 import '../../models/building_model.dart';
 import '../../network/end_points.dart';
@@ -10,7 +9,23 @@ import 'addNewHouse.dart';
 import 'addnewHouse2.dart';
 
 class AddNewHouse3 extends StatefulWidget {
-  const AddNewHouse3({super.key});
+  const AddNewHouse3(
+      {super.key,
+      this.name,
+      this.description,
+      this.cost,
+      this.area,
+      this.selectedIndexNames,
+      this.selectedIndexState,
+      this.mapUrl});
+
+  final String? name;
+  final String? description;
+  final int? cost;
+  final int? area;
+  final int? selectedIndexNames;
+  final int? selectedIndexState;
+  final String? mapUrl;
 
   @override
   State<AddNewHouse3> createState() => _AddNewHouse3State();
@@ -100,69 +115,83 @@ class _AddNewHouse3State extends State<AddNewHouse3> {
     });
   }
 
-  BuildingModel? _building;
-  AddNewHouse? addNewHouse1;
-  AddNewHouse2? addNewHouse2;
-
-  Future<void> postNewBuilding(BuildContext ctx) async {
+  postNewBuilding() async {
     try {
+      String type;
+      switch (widget.selectedIndexNames) {
+        case 0:
+          type = "شقة";
+          break;
+        case 1:
+          type = "بيت";
+          break;
+        case 2:
+          type = "مكتب";
+          break;
+        case 3:
+          type = "متجر";
+          break;
+        case 4:
+          type = "بناية";
+          break;
+        case 5:
+          type = "ارض";
+          break;
+        default:
+          type = "OtherType";
+      }
+      String? tileType;
+      switch (_selectedItem) {
+        case 'سيراميك':
+          tileType = 'سيراميك';
+          break;
+        case 'جرانيت':
+          tileType = 'جرانيت';
+          break;
+        case 'رخام':
+          tileType = 'رخام';
+          break;
+        case 'موكيت':
+          tileType = 'موكيت';
+          break;
+        case 'بورسلين':
+          tileType = 'بورسلين';
+          break;
+        case 'باركيه':
+          tileType = 'باركيه';
+          break;
+        default:
+          tileType = 'OtherType';
+      }
       final response = await HttpHelper.postData(
         url: EndPoints.addNewHouse,
         body: {
-          "name": addNewHouse1?.nameController.text,
-          "cost": int.parse(addNewHouse1?.costController.text ?? "0"),
-          "description": addNewHouse1?.desController.text,
+          "name": widget.name ?? "",
+          "cost": widget.cost ?? "0",
+          "description": widget.description ?? "",
           "phoneNumber": int.parse(_controllerPhoneNumber.text),
           "numberRooms": _countBedRoom,
           "numberServers": _countBath,
           "numberFloors": _countFloor,
           "age": int.parse(_controllerAgeHouse.text),
           "nzal": 30,
-          "HotKatchen": true,
-          "pool": true,
-          "laundryRoom": true,
+          "HotKatchen": _isKitchenHot,
+          "pool": _isPool,
+          "laundryRoom": _isWashingRoom,
           "gardenArea": int.parse(_controllerGradenArea.text),
           "garageArea": int.parse(_controllerGarage.text),
           "photos": ["QWeqwe"],
-          "area": int.parse(addNewHouse1?.areaController.text ?? "0"),
-          "map": addNewHouse2?.mapController.text,
-          // "type": addNewHouse1?.selectedIndexNames,
-          // "tileType": _selectedItem,
-          // "status": addNewHouse1?.selectedIndexState,
-          "type": "بيت",
-          "status": "rent",
-          "tileType": "سيراميك",
+          "area": widget.area ?? "",
+          "map": widget.mapUrl ?? "",
+          "type": type,
+          "tileType": tileType,
+          "status": widget.selectedIndexState == 0 ? "sell" : "rent",
           "town": _controllerTown.text,
           "katchenNumber": _countKitchenRoom,
         },
-        /*  body: {
-            "name": "x c",
-            "cost": 1231,
-            "description": "asdasdasd",
-            "phoneNumber": 113231231,
-            "numberRooms": 12,
-            "numberServers": 3,
-            "numberFloors": 3,
-            "age": 5,
-            "nzal": 31,
-            "HotKatchen": true,
-            "pool": true,
-            "laundryRoom": true,
-            "gardenArea": 23142,
-            "garageArea": 2342,
-            "photos": ["QWeqwe"],
-            "area": -12312,
-            "map": "qweqwe",
-            "type": "بناية",
-            "tileType": "بورسلين",
-            "status": "rent",
-            "town": "asdasD",
-            "katchenNumber": 3
-          } */
       );
       print(response);
       if (response['success']) {
-        // _building = BuildingModel.fromJson(response);
       } else {
         print("error $response");
       }
@@ -580,18 +609,9 @@ class _AddNewHouse3State extends State<AddNewHouse3> {
                   ),
                   child: GestureDetector(
                     onTap: () {
-                      postNewBuilding(context);
+                      postNewBuilding();
                       print("ok");
-                      Navigator.pushNamed(context, "/HomeScreen");
-
-                      print(addNewHouse1?.nameController.text);
-                      print(
-                          int.parse(addNewHouse1?.costController.text ?? "0"));
-                      print(addNewHouse1?.desController.text);
-                      print(int.parse(_controllerPhoneNumber.text));
-                      print(_countBedRoom);
-                      print(_countBath);
-                      print("mappp : $addNewHouse2?.mapController.text");
+                      // Navigator.pushNamed(context, "/dashBoard");
                     },
                     child: Center(
                       child: Text(
