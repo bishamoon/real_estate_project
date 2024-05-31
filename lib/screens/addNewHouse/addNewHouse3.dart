@@ -47,8 +47,8 @@ class _AddNewHouse3State extends State<AddNewHouse3> {
   TextEditingController _controllerGarage = TextEditingController(text: "300");
   TextEditingController _controllerAgeHouse =
       TextEditingController(text: "400");
-  TextEditingController _controllerPhoneNumber =
-      TextEditingController(text: "07742345632");
+ TextEditingController _controllerPhoneNumber =
+      TextEditingController(text: "113231231");
   TextEditingController _controllerTown = TextEditingController(text: "twon");
   int _countBedRoom = 0;
   int _countKitchenRoom = 0;
@@ -115,7 +115,7 @@ class _AddNewHouse3State extends State<AddNewHouse3> {
     });
   }
 
-  postNewBuilding() async {
+ postNewBuilding() async {
     try {
       String type;
       switch (widget.selectedIndexNames) {
@@ -140,6 +140,7 @@ class _AddNewHouse3State extends State<AddNewHouse3> {
         default:
           type = "OtherType";
       }
+
       String? tileType;
       switch (_selectedItem) {
         case 'سيراميك':
@@ -163,39 +164,50 @@ class _AddNewHouse3State extends State<AddNewHouse3> {
         default:
           tileType = 'OtherType';
       }
+
+      var body = {
+        "name": "name",
+        "cost": widget.cost ?? 0,
+        "description": widget.description ?? "",
+        "phoneNumber": int.parse(_controllerPhoneNumber.text),
+        "numberRooms": _countBedRoom,
+        "numberServers": _countBath,
+        "numberFloors": _countFloor,
+        "age": int.parse(_controllerAgeHouse.text),
+        "nzal": 0,
+        "HotKatchen": _isKitchenHot,
+        "pool": _isPool,
+        "laundryRoom": _isWashingRoom,
+        "gardenArea": int.parse(_controllerGradenArea.text),
+        "garageArea": int.parse(_controllerGarage.text),
+        "photos": ["QWeqwe"],
+        "area": widget.area ?? 0,
+        "map": widget.mapUrl ?? "",
+        "type": type,
+        "tileType": tileType,
+        "status": widget.selectedIndexState == 0 ? "sell" : "rent",
+        "town": _controllerTown.text,
+        "katchenNumber": _countKitchenRoom,
+      };
+
+      body.forEach((key, value) {
+        print('$key: $value');
+      });
+
       final response = await HttpHelper.postData(
         url: EndPoints.addNewHouse,
-        body: {
-          "name": widget.name ?? "",
-          "cost": widget.cost ?? "0",
-          "description": widget.description ?? "",
-          "phoneNumber": int.parse(_controllerPhoneNumber.text),
-          "numberRooms": _countBedRoom,
-          "numberServers": _countBath,
-          "numberFloors": _countFloor,
-          "age": int.parse(_controllerAgeHouse.text),
-          "nzal": 30,
-          "HotKatchen": _isKitchenHot,
-          "pool": _isPool,
-          "laundryRoom": _isWashingRoom,
-          "gardenArea": int.parse(_controllerGradenArea.text),
-          "garageArea": int.parse(_controllerGarage.text),
-          "photos": ["QWeqwe"],
-          "area": widget.area ?? "",
-          "map": widget.mapUrl ?? "",
-          "type": type,
-          "tileType": tileType,
-          "status": widget.selectedIndexState == 0 ? "sell" : "rent",
-          "town": _controllerTown.text,
-          "katchenNumber": _countKitchenRoom,
-        },
+        body: body,
       );
+
       print(response);
+
       if (response['success']) {
+        // Handle success
       } else {
         print("error $response");
       }
     } catch (error) {
+      print('Caught error: $error');
     } finally {
       setState(() {});
     }

@@ -1,7 +1,7 @@
 import 'package:real_estate/network/shared_helper.dart';
 
 class EndPoints {
-  static const baseUrl = "http://172.20.10.2:5000/admin/";
+  static const baseUrl = "http://192.168.0.182:5000/admin/";
   // for now this your token you should replace it with ""
   static String token = SharedHelper.getData(key: "token") ?? "";
 
