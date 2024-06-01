@@ -18,10 +18,12 @@ import 'screens/auth/forgetpassword.dart';
 import 'screens/auth/signInScreen.dart';
 import 'screens/auth/signUpScreen.dart';
 import 'screens/fav/favoriteScreen.dart';
+import 'dart:io';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SharedHelper.init();
+  HttpOverrides.global = MyHttpOverrides();
   runApp(const MyApp());
 }
 
@@ -39,7 +41,7 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: AppColors.backgroundColor,
       ),
       home: isLoggedIn != null ? const DashBoardScreen() : const SignInScreen(),
-      // home: const SignInScreen(),
+      // home: test(),
 
       // home: isFirstTime != null
       //     ? isLoggedIn != null
@@ -62,5 +64,14 @@ class MyApp extends StatelessWidget {
         "/AddNewHouse3": (context) => AddNewHouse3(),
       },
     );
+  }
+}
+
+class MyHttpOverrides extends HttpOverrides {
+  @override
+  HttpClient createHttpClient(SecurityContext? context) {
+    return super.createHttpClient(context)
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
   }
 }

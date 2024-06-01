@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:real_estate/componets/appColors.dart';
 import 'package:real_estate/componets/widgets/is_loading_widget.dart';
 import 'package:real_estate/models/building_model.dart';
-
 import '../../componets/widgets/nearbyCard.dart';
 import '../../models/user_model.dart';
 import '../../network/end_points.dart';
@@ -64,6 +63,33 @@ class _ProfileState extends State<Profile> {
     setState(() {});
   }
 
+  deleteBuilding(String id) async {
+    final response =
+        await HttpHelper.deleteData(url: "${EndPoints.deleteBuilding}/$id");
+    print(response);
+    if (response['success']) {
+      print("ok");
+      _showPublishMessage(context);
+    } else {
+      print("error happen");
+    }
+    setState(() {});
+  }
+
+  void _showPublishMessage(BuildContext context) {
+    final snackBar = SnackBar(
+      content: Text('تم الحذف',
+          style: TextStyle(
+            color: AppColors.primaryColor,
+            fontSize: 16,
+            fontFamily: 'Cairo',
+            fontWeight: FontWeight.w600,
+          )),
+      duration: Duration(seconds: 3),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -108,9 +134,7 @@ class _ProfileState extends State<Profile> {
                       radius: 50, // Adjust the size of the circle as needed
                       backgroundColor:
                           Colors.grey, // Background color of the circle
-                      backgroundImage: AssetImage(
-                          'assets/img/imgprofile.png'), // Image to be displayed inside the circle
-                      // You can also use NetworkImage for images from the internet: NetworkImage('url_of_image')
+                      backgroundImage: AssetImage('assets/img/imgprofile.png'),
                     ),
                     const SizedBox(
                       height: 5,
@@ -174,7 +198,7 @@ class _ProfileState extends State<Profile> {
                     height: 260,
                     child: Center(
                       child: Text(
-                        "لا يوجد عقارات مميزة",
+                        "لا يوجد عقارات ",
                         style: TextStyle(
                           color: Colors.black,
                           fontSize: 17,
@@ -200,7 +224,7 @@ class _ProfileState extends State<Profile> {
                       return nearByCard(
                         houseName: building.name,
                         area: building.buildingInfo.area,
-                        imgUrl: "assets/img/houseimg.png",
+                        imgUrl: building.buildingInfo.photos[0],
                         location: building.buildingInfo.map,
                         price: building.cost,
                         noBed: building.buildingInfo.numberRooms,
@@ -210,7 +234,7 @@ class _ProfileState extends State<Profile> {
                         context: context,
                         id: building.id,
                         delete: () {
-                          // delete real estate
+                          deleteBuilding(building.id);
                         },
                       );
                     },

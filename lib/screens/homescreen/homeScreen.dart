@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:real_estate/componets/widgets/defaultsearchField.dart';
 import 'package:real_estate/componets/widgets/is_loading_widget.dart';
@@ -154,7 +155,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           shape: BoxShape.circle,
                           image: DecorationImage(
                             fit: BoxFit.cover,
-                            image: AssetImage('assets/img/1.png'),
+                            image: AssetImage("assets/img/imgprofile.png"),
                           ),
                         ),
                       ),
@@ -303,7 +304,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           return SpacialCard(
                             houseName: building.name,
                             area: building.buildingInfo.area,
-                            imgUrl: "assets/img/houseimg.png",
+                            imgUrl: building.buildingInfo.photos[0],
                             location: building.buildingInfo.town,
                             price: building.cost,
                             noBed: building.buildingInfo.numberRooms,
@@ -396,7 +397,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           return nearByCard(
                             houseName: building.name,
                             area: building.buildingInfo.area,
-                            imgUrl: "assets/img/houseimg.png",
+                            imgUrl: building.buildingInfo.photos[0],
                             location: building.buildingInfo.map,
                             price: building.cost,
                             noBed: building.buildingInfo.numberRooms,

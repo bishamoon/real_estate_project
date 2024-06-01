@@ -278,7 +278,7 @@ class _DescrptionScreenState extends State<DescrptionScreen> {
               color: Colors.grey, // Adjust color as needed
             ),
             const SizedBox(
-              height: 40,
+              height: 70,
             )
           ],
         ),

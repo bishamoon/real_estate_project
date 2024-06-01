@@ -36,7 +36,7 @@ Widget SpacialCard({
           children: [
             SizedBox(
               height: 150,
-              child: Image.asset(
+              child: Image.network(
                 imgUrl,
                 width: 220,
               ),

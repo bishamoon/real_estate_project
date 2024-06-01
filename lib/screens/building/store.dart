@@ -130,7 +130,7 @@ class _StoresScreenState extends State<StoresScreen> {
                   return nearByCard(
                     houseName: building.name,
                     area: building.buildingInfo.area,
-                    imgUrl: "assets/img/houseimg.png",
+                    imgUrl: "https://im.ge/i/d1.KiViwp",
                     location: building.buildingInfo.map,
                     price: building.cost,
                     noBed: building.buildingInfo.numberRooms,

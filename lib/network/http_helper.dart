@@ -4,9 +4,7 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:real_estate/network/end_points.dart';
 
-
 class HttpHelper {
-
 //! GET DATA
 
   static Future getData({required String url}) async {
@@ -65,6 +63,25 @@ class HttpHelper {
           });
       // .timeout(const Duration(seconds: 10),
       //         onTimeout: () => throw 'Check Your Internet connection');
+
+      return jsonResponse(response);
+    } on SocketException {
+      throw 'check your internet in your device';
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+//! DELETE
+  static Future deleteData({
+    required String url,
+  }) async {
+    try {
+      http.Response response = await http
+          .delete(Uri.parse(EndPoints.baseUrl + url), headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'bearer ${EndPoints.token}'
+      });
 
       return jsonResponse(response);
     } on SocketException {

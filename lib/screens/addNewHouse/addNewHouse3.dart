@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:real_estate/componets/appColors.dart';
 import '../../componets/widgets/inputDetails.dart';
 import '../../models/building_model.dart';
@@ -17,7 +16,10 @@ class AddNewHouse3 extends StatefulWidget {
       this.area,
       this.selectedIndexNames,
       this.selectedIndexState,
-      this.mapUrl});
+      this.mapUrl,
+      this.img1,
+      this.img2,
+      this.img3});
 
   final String? name;
   final String? description;
@@ -26,6 +28,9 @@ class AddNewHouse3 extends StatefulWidget {
   final int? selectedIndexNames;
   final int? selectedIndexState;
   final String? mapUrl;
+  final String? img1;
+  final String? img2;
+  final String? img3;
 
   @override
   State<AddNewHouse3> createState() => _AddNewHouse3State();
@@ -47,7 +52,7 @@ class _AddNewHouse3State extends State<AddNewHouse3> {
   TextEditingController _controllerGarage = TextEditingController(text: "300");
   TextEditingController _controllerAgeHouse =
       TextEditingController(text: "400");
- TextEditingController _controllerPhoneNumber =
+  TextEditingController _controllerPhoneNumber =
       TextEditingController(text: "113231231");
   TextEditingController _controllerTown = TextEditingController(text: "twon");
   int _countBedRoom = 0;
@@ -115,7 +120,21 @@ class _AddNewHouse3State extends State<AddNewHouse3> {
     });
   }
 
- postNewBuilding() async {
+  void _showPublishMessage(BuildContext context) {
+    final snackBar = SnackBar(
+      content: Text('تم النشر',
+          style: TextStyle(
+            color: AppColors.primaryColor,
+            fontSize: 16,
+            fontFamily: 'Cairo',
+            fontWeight: FontWeight.w600,
+          )),
+      duration: Duration(seconds: 3),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
+  postNewBuilding() async {
     try {
       String type;
       switch (widget.selectedIndexNames) {
@@ -180,7 +199,7 @@ class _AddNewHouse3State extends State<AddNewHouse3> {
         "laundryRoom": _isWashingRoom,
         "gardenArea": int.parse(_controllerGradenArea.text),
         "garageArea": int.parse(_controllerGarage.text),
-        "photos": ["QWeqwe"],
+        "photos": [widget.img1, widget.img2, widget.img2],
         "area": widget.area ?? 0,
         "map": widget.mapUrl ?? "",
         "type": type,
@@ -535,15 +554,33 @@ class _AddNewHouse3State extends State<AddNewHouse3> {
               hintText: "5",
               controller: _controllerAgeHouse,
             ),
-            choose("مطبخ ساخن", _isKitchenHot),
+            choose("مطبخ ساخن", _isKitchenHot, () {
+              _isKitchenHot = true;
+              setState(() {});
+            }, () {
+              _isKitchenHot = false;
+              setState(() {});
+            }),
             SizedBox(
               height: 10,
             ),
-            choose("مسبح", _isPool),
+            choose("مسبح", _isPool, () {
+              _isPool = true;
+              setState(() {});
+            }, () {
+              _isPool = false;
+              setState(() {});
+            }),
             SizedBox(
               height: 10,
             ),
-            choose("غرفة غسيل", _isWashingRoom),
+            choose("غرفة غسيل", _isWashingRoom, () {
+              _isWashingRoom = true;
+              setState(() {});
+            }, () {
+              _isWashingRoom = false;
+              setState(() {});
+            }),
             SizedBox(
               height: 11,
             ),
@@ -623,7 +660,9 @@ class _AddNewHouse3State extends State<AddNewHouse3> {
                     onTap: () {
                       postNewBuilding();
                       print("ok");
-                      // Navigator.pushNamed(context, "/dashBoard");
+                      //show message
+                      _showPublishMessage(context);
+                      Navigator.pushNamed(context, "/dashBoard");
                     },
                     child: Center(
                       child: Text(
@@ -677,7 +716,8 @@ class _AddNewHouse3State extends State<AddNewHouse3> {
     );
   }
 
-  Container choose(String lable, bool value) {
+  Container choose(
+      String lable, bool value, Function()? onTap1, Function()? onTap2) {
     return Container(
       width: 370,
       height: 55,
@@ -699,11 +739,7 @@ class _AddNewHouse3State extends State<AddNewHouse3> {
             ),
             child: Center(
               child: GestureDetector(
-                onTap: () {
-                  setState(() {
-                    value = true;
-                  });
-                },
+                onTap: onTap1,
                 child: Text(
                   "يوجد",
                   style: TextStyle(
@@ -727,11 +763,7 @@ class _AddNewHouse3State extends State<AddNewHouse3> {
             ),
             child: Center(
               child: GestureDetector(
-                onTap: () {
-                  setState(() {
-                    value = false;
-                  });
-                },
+                onTap: onTap2,
                 child: Text(
                   "لايوجد",
                   style: TextStyle(

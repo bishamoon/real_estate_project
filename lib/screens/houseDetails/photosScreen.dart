@@ -1,21 +1,23 @@
 import 'package:flutter/material.dart';
 
+import '../../models/build_details_model.dart';
+
 class PhotosScreen extends StatefulWidget {
-  const PhotosScreen({super.key});
+  const PhotosScreen({super.key, required this.model});
+  final BuildingDetails model;
 
   @override
   State<PhotosScreen> createState() => _PhotosScreenState();
 }
 
 class _PhotosScreenState extends State<PhotosScreen> {
-  List UrlPhoto = [
-    "assets/img/d1.png",
-    "assets/img/d2.png",
-    "assets/img/d3.png",
-    "assets/img/d1.png",
-    "assets/img/d2.png",
-    "assets/img/d3.png"
-  ];
+  List<String> UrlPhoto = [];
+  @override
+  void initState() {
+    // TODO: implement initState
+     UrlPhoto = widget.model.data.buildingInfo.photos;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +76,7 @@ class _PhotosScreenState extends State<PhotosScreen> {
                   crossAxisSpacing: 0.0, // Adjust the horizontal spacing
                 ),
                 scrollDirection: Axis.vertical,
-                itemCount: 6,
+                itemCount: UrlPhoto.length,
                 itemBuilder: (BuildContext context, int index) {
                   return photoConatiner(
                     UrlPhoto: UrlPhoto[index],
@@ -108,7 +110,9 @@ class photoConatiner extends StatelessWidget {
           Radius.circular(5),
         ),
       ),
-      child: Image.asset(UrlPhoto),
+      child: Image.network(
+        UrlPhoto,
+      ),
     );
   }
 }

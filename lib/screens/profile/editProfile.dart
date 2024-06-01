@@ -16,8 +16,7 @@ class EditProfile extends StatefulWidget {
 
 class _EditProfileState extends State<EditProfile> {
   TextEditingController _controllerName = TextEditingController();
-  TextEditingController _controllerEmail = TextEditingController();
-  TextEditingController _controllerpassword = TextEditingController();
+  TextEditingController _controllerAddress = TextEditingController();
 
   bool _isLoadingAccount = false;
   @override
@@ -47,40 +46,32 @@ class _EditProfileState extends State<EditProfile> {
     setState(() {});
   }
 
-  //didn't work though ...
   updateAccount() async {
     try {
-      setState(() {
-        _isLoading = true;
-      });
       final id = await SharedHelper.getData(key: "user_id");
-
       final response = await HttpHelper.updateData(
           url: "${EndPoints.updateUser}/$id",
           body: {
             "name": _controllerName.text,
-            "email": _controllerEmail.text,
-            "password": _controllerpassword.text,
+            "address": _controllerAddress.text,
+            "avatar": "SDfs",
+            "dob": "2000-10-10",
+            "bio": "DRtrdt",
           });
-
+      print(response);
       if (response["success"]) {
         final data = UserModel.fromJson(response);
-
         await SharedHelper.saveData(key: "user_name", value: data.data.name);
-        await SharedHelper.saveData(key: "user_id", value: data.data.id);
         await SharedHelper.saveData(
-            key: "user_password", value: data.data.password);
-
+            key: "user_address", value: data.data.address);
+        _showPublishMessage(context);
         if (context.mounted) {
           Navigator.pushNamed(context, "/dashBoard");
         }
-        _isLoading = false;
       } else {
-        _isLoading = false;
         showError(response["message"]);
       }
     } catch (e) {
-      _isLoading = false;
       print("error in update account = $e");
     }
     setState(() {});
@@ -91,6 +82,20 @@ class _EditProfileState extends State<EditProfile> {
       content: Text(error),
       duration: const Duration(seconds: 1),
     ));
+  }
+
+  void _showPublishMessage(BuildContext context) {
+    final snackBar = SnackBar(
+      content: Text('تم تعديل محتويات الحساب',
+          style: TextStyle(
+            color: AppColors.primaryColor,
+            fontSize: 16,
+            fontFamily: 'Cairo',
+            fontWeight: FontWeight.w600,
+          )),
+      duration: Duration(seconds: 3),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
   @override
@@ -118,9 +123,8 @@ class _EditProfileState extends State<EditProfile> {
                     GestureDetector(
                       onTap: () {
                         //save editing
-                        setState(() {
-                          updateAccount();
-                        });
+
+                        updateAccount();
                       },
                       child: Image.asset("assets/img/ok.png"),
                     ),
@@ -214,7 +218,7 @@ class _EditProfileState extends State<EditProfile> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "البريد الالكتروني",
+                      "المدينة",
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 15,
@@ -229,37 +233,12 @@ class _EditProfileState extends State<EditProfile> {
                 ),
               ),
               defaultTextField(
-                  hintText: _isLoadingAccount
-                      ? "جاري التحميل..."
-                      : _user?.email ?? "زائر",
-                  controller: _controllerEmail,
-                  validator: (p0) {},
-                  keyboardType: TextInputType.emailAddress),
-              Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "الرمز السري",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 15,
-                        fontFamily: 'Cairo',
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    SizedBox(
-                      width: 40,
-                    ),
-                  ],
-                ),
+                hintText: _isLoadingAccount
+                    ? "جاري التحميل..."
+                    : _user?.address ?? "زائر",
+                controller: _controllerAddress,
+                validator: (p0) {},
               ),
-              defaultTextField(
-                  hintText: "********",
-                  controller: _controllerpassword,
-                  validator: (p0) {},
-                  keyboardType: TextInputType.visiblePassword),
               SizedBox(
                 height: 5,
               ),

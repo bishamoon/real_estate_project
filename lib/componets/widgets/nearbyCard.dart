@@ -15,14 +15,14 @@ Widget nearByCard({
   required String type,
   required BuildContext context,
   required String id,
-  VoidCallback? delete,
+   Function()? delete,
 }) {
   return GestureDetector(
     onTap: () {
       Navigator.push(context,
           MaterialPageRoute(builder: (context) => HouseDetails1(id: id)));
     },
-    onDoubleTap: delete,
+    onLongPress: delete,
     child: Padding(
       padding: const EdgeInsets.only(left: 5),
       child: Container(
@@ -34,7 +34,7 @@ Widget nearByCard({
         child: Row(
           children: [
             Expanded(
-              child: Image.asset("assets/img/Image.png"),
+              child: Image.network(imgUrl),
             ),
             Expanded(
               flex: 2,

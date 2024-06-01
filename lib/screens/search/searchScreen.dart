@@ -32,16 +32,39 @@ class _SearchScreenState extends State<SearchScreen> {
     'بناية',
     'ارض',
   ];
-  List<String> _places = ['منصور', 'كرادة', 'زيونة', 'الجادرية', 'الاعظمية'];
-  String _selectedItemTown = "منصور";
+  List<String> _places = ['baghdad', 'كرادة', 'زيونة', 'الجادرية', 'الاعظمية'];
+  String _selectedItemTown = "baghdad";
   bool _isRent = false;
 
   final List<DataBuildingModel> _allBuildings = [];
 
   bool _isLoading = false;
 
-  Future<void> getAllBuildingsBySearch(BuildContext ctx) async {
+  getAllBuildingsBySearch() async {
     try {
+      String type;
+      switch (selectedIndexNames) {
+        case 0:
+          type = "شقة";
+          break;
+        case 1:
+          type = "بيت";
+          break;
+        case 2:
+          type = "مكتب";
+          break;
+        case 3:
+          type = "متجر";
+          break;
+        case 4:
+          type = "بناية";
+          break;
+        case 5:
+          type = "ارض";
+          break;
+        default:
+          type = "OtherType";
+      }
       setState(() {
         _isLoading = true;
       });
@@ -49,22 +72,31 @@ class _SearchScreenState extends State<SearchScreen> {
       final response = await HttpHelper.postData(
         url: EndPoints.getBuildingBySearch,
         body: {
-          // 'statuss': _isRent,
-          'town': _selectedItemTown,
-          'costFrom': int.parse(_costFromController.text.isEmpty
-              ? "1"
-              : _costFromController.text),
-          'costTo': int.parse(_costFromController.text.isEmpty
-              ? "1000000"
-              : _costFromController.text),
-          'areaFrom': int.parse(_areaFromController.text.isEmpty
-              ? "1"
-              : _areaFromController.text),
-          'areaTo': int.parse(
-              _areaToController.text.isEmpty ? "1" : _areaToController.text),
-          'name': _searchController.text,
-          'typebuild': estateNames[selectedIndexNames],
-          // 'tiletype': "",
+          // 'costFrom': int.parse(_costFromController.text.isEmpty
+          //     ? "1"
+          //     : _costFromController.text),
+          // 'costTo': int.parse(_costFromController.text.isEmpty
+          //     ? "1023240"
+          //     : _costFromController.text),
+          // 'areaFrom': int.parse(_areaFromController.text.isEmpty
+          //     ? "-12312"
+          //     : _areaFromController.text),
+          // 'areaTo': int.parse(
+          //     _areaToController.text.isEmpty ? "102230" : _areaToController.text),
+          // "town": "baghdad",
+          // "statuss": _isRent == 0 ? "sell" : "rent",
+          // "typebulid": type,
+          // "tiletype": "بورسلين"
+          // 'name': _searchController.text,
+                    'name': "مكتب",
+
+          "costFrom": 1,
+          "costTo": 1023240,
+          "areaFrom": -12312,
+          "areaTo": 102230,
+          "town": "baghdad",
+          "statuss": "rent",
+          "typebulid": "مكتب", "tiletype": "بورسلين"
         },
       );
       print(response);
@@ -72,12 +104,6 @@ class _SearchScreenState extends State<SearchScreen> {
         _allBuildings.clear();
         final model = BuildingModel.fromJson(response);
         _allBuildings.addAll(model.data);
-        Navigator.push(
-          ctx,
-          MaterialPageRoute(
-            builder: (_) => ResultsScreen(searchResults: _allBuildings),
-          ),
-        );
       } else {
         print("error $response");
       }
@@ -415,7 +441,13 @@ class _SearchScreenState extends State<SearchScreen> {
               SizedBox(
                 height: 15,
               ),
-              choose("الحالة", _isRent),
+              choose("الحالة", _isRent, () {
+                _isRent = true;
+                setState(() {});
+              }, () {
+                _isRent = false;
+                setState(() {});
+              }),
               SizedBox(
                 height: 40,
               ),
@@ -435,7 +467,14 @@ class _SearchScreenState extends State<SearchScreen> {
                           ),
                           child: GestureDetector(
                             onTap: () {
-                              getAllBuildingsBySearch(context);
+                              getAllBuildingsBySearch();
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) => ResultsScreen(
+                                      searchResults: _allBuildings),
+                                ),
+                              );
                             },
                             child: Center(
                               child: Text(
@@ -462,7 +501,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     ),
                     child: GestureDetector(
                       onTap: () {
-                        Navigator.pop(context);
+                        Navigator.popAndPushNamed(context, "/HomeScreen");
                       },
                       child: Center(
                         child: Text(
@@ -523,7 +562,8 @@ class _SearchScreenState extends State<SearchScreen> {
     );
   }
 
-  Container choose(String lable, bool value) {
+  Container choose(
+      String lable, bool value, Function()? onTap1, Function()? onTap2) {
     return Container(
       width: 370,
       height: 55,
@@ -534,15 +574,6 @@ class _SearchScreenState extends State<SearchScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          Text(
-            lable,
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: 16,
-              fontFamily: 'Cairo',
-              fontWeight: FontWeight.w600,
-            ),
-          ),
           Container(
             width: 100,
             height: 33,
@@ -554,13 +585,9 @@ class _SearchScreenState extends State<SearchScreen> {
             ),
             child: Center(
               child: GestureDetector(
-                onTap: () {
-                  setState(() {
-                    value = true;
-                  });
-                },
+                onTap: onTap1,
                 child: Text(
-                  "بيع",
+                  "للأيجار",
                   style: TextStyle(
                     color: value ? Colors.white : AppColors.primaryColor,
                     fontSize: 16,
@@ -582,13 +609,9 @@ class _SearchScreenState extends State<SearchScreen> {
             ),
             child: Center(
               child: GestureDetector(
-                onTap: () {
-                  setState(() {
-                    value = false;
-                  });
-                },
+                onTap: onTap2,
                 child: Text(
-                  "أيجار",
+                  "للبيع",
                   style: TextStyle(
                     color: !value ? Colors.white : AppColors.primaryColor,
                     fontSize: 16,
@@ -597,6 +620,15 @@ class _SearchScreenState extends State<SearchScreen> {
                   ),
                 ),
               ),
+            ),
+          ),
+          Text(
+            lable,
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 16,
+              fontFamily: 'Cairo',
+              fontWeight: FontWeight.w600,
             ),
           ),
         ],

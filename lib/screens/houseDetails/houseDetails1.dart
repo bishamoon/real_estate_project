@@ -152,8 +152,8 @@ class _HouseDetails1State extends State<HouseDetails1>
                     children: [
                       Stack(
                         children: [
-                          Image.asset(
-                            "assets/img/photo.jpg",
+                          Image.network(
+                            _buildingDetails!.data.buildingInfo.photos[0],
                             fit: BoxFit.cover,
                           ),
                           Padding(
@@ -324,7 +324,9 @@ class _HouseDetails1State extends State<HouseDetails1>
                             DescrptionScreen(
                               model: _buildingDetails!,
                             ),
-                            const PhotosScreen()
+                            PhotosScreen(
+                              model: _buildingDetails!,
+                            )
                           ],
                         ),
                       ),
