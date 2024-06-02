@@ -15,7 +15,7 @@ Widget nearByCard({
   required String type,
   required BuildContext context,
   required String id,
-   Function()? delete,
+  Function()? delete,
 }) {
   return GestureDetector(
     onTap: () {
@@ -34,7 +34,10 @@ Widget nearByCard({
         child: Row(
           children: [
             Expanded(
-              child: Image.network(imgUrl),
+              child: Image.network(
+                imgUrl,
+                fit: BoxFit.fill,
+              ),
             ),
             Expanded(
               flex: 2,
@@ -45,14 +48,17 @@ Widget nearByCard({
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     mainAxisSize: MainAxisSize.max,
                     children: [
-                      Text(
-                        houseName,
-                        style: const TextStyle(
-                          color: Color(0xFF333333),
-                          fontSize: 12,
-                          fontFamily: 'Cairo',
-                          fontWeight: FontWeight.w700,
-                          height: 0,
+                      Padding(
+                        padding: const EdgeInsets.only(right: 6.0),
+                        child: Text(
+                          houseName,
+                          style: const TextStyle(
+                            color: Color(0xFF333333),
+                            fontSize: 12,
+                            fontFamily: 'Cairo',
+                            fontWeight: FontWeight.w700,
+                            height: 0,
+                          ),
                         ),
                       ),
                       const SizedBox(
@@ -86,108 +92,117 @@ Widget nearByCard({
                     ],
                   ),
                   const SizedBox(height: 2),
-                  Row(
-                    children: [
-                      Image.asset("assets/img/location.png"),
-                      const SizedBox(
-                        width: 5,
-                      ),
-                      Text(
-                        location,
-                        style: const TextStyle(
-                          color: AppColors.gray,
-                          fontSize: 10,
-                          fontFamily: 'Cairo',
-                          fontWeight: FontWeight.w600,
-                          height: 0,
+                  Padding(
+                    padding: const EdgeInsets.only(right: 6.0),
+                    child: Row(
+                      children: [
+                        Image.asset("assets/img/location.png"),
+                        const SizedBox(
+                          width: 5,
                         ),
-                      )
-                    ],
+                        Text(
+                          location,
+                          style: const TextStyle(
+                            color: AppColors.gray,
+                            fontSize: 10,
+                            fontFamily: 'Cairo',
+                            fontWeight: FontWeight.w600,
+                            height: 0,
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                   const SizedBox(height: 2),
-                  Text(
-                    "$price \$",
-                    style: const TextStyle(
-                      color: AppColors.secondaryColor,
-                      fontSize: 12,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w700,
+                  Padding(
+                    padding: const EdgeInsets.only(right: 6.0),
+                    child: Text(
+                      "$price \$",
+                      style: const TextStyle(
+                        color: AppColors.secondaryColor,
+                        fontSize: 12,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w700,
+                      ),
                     ),
                   ),
                   const SizedBox(height: 10),
-                  Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            Text(
-                              noKitchen.toString(),
-                              style: const TextStyle(
-                                color: Color(0xFF828282),
-                                fontSize: 10,
-                                fontFamily: 'Poppins',
-                                fontWeight: FontWeight.w600,
-                                height: 0,
+                  Padding(
+                    padding: const EdgeInsets.only(right: 6.0),
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              Text(
+                                noKitchen.toString(),
+                                style: const TextStyle(
+                                  color: Color(0xFF828282),
+                                  fontSize: 10,
+                                  fontFamily: 'Poppins',
+                                  fontWeight: FontWeight.w600,
+                                  height: 0,
+                                ),
                               ),
-                            ),
-                            Image.asset("assets/img/cook.png"),
-                            const SizedBox(
-                              width: 7,
-                            ),
-                            Text(
-                              noBed.toString(),
-                              style: const TextStyle(
-                                color: Color(0xFF828282),
-                                fontSize: 10,
-                                fontFamily: 'Poppins',
-                                fontWeight: FontWeight.w600,
-                                height: 0,
+                              Image.asset("assets/img/cook.png"),
+                              const SizedBox(
+                                width: 7,
                               ),
-                            ),
-                            const SizedBox(
-                              width: 2,
-                            ),
-                            Image.asset("assets/img/bed.png"),
-                            const SizedBox(
-                              width: 7,
-                            ),
-                            Text(
-                              noBath.toString(),
-                              style: const TextStyle(
-                                color: Color(0xFF828282),
-                                fontSize: 10,
-                                fontFamily: 'Poppins',
-                                fontWeight: FontWeight.w600,
-                                height: 0,
+                              Text(
+                                noBed.toString(),
+                                style: const TextStyle(
+                                  color: Color(0xFF828282),
+                                  fontSize: 10,
+                                  fontFamily: 'Poppins',
+                                  fontWeight: FontWeight.w600,
+                                  height: 0,
+                                ),
                               ),
-                            ),
-                            const SizedBox(
-                              width: 2,
-                            ),
-                            Image.asset("assets/img/bath.png"),
-                            const SizedBox(
-                              width: 12,
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Text(
-                              area.toString(),
-                              style: const TextStyle(
-                                color: AppColors.gray,
-                                fontSize: 8,
-                                fontWeight: FontWeight.w600,
-                                height: 0,
+                              const SizedBox(
+                                width: 2,
                               ),
-                            ),
-                            const SizedBox(
-                              width: 3,
-                            ),
-                            Image.asset("assets/img/area.png"),
-                          ],
-                        )
-                      ]),
+                              Image.asset("assets/img/bed.png"),
+                              const SizedBox(
+                                width: 7,
+                              ),
+                              Text(
+                                noBath.toString(),
+                                style: const TextStyle(
+                                  color: Color(0xFF828282),
+                                  fontSize: 10,
+                                  fontFamily: 'Poppins',
+                                  fontWeight: FontWeight.w600,
+                                  height: 0,
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 2,
+                              ),
+                              Image.asset("assets/img/bath.png"),
+                              const SizedBox(
+                                width: 12,
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Text(
+                                area.toString(),
+                                style: const TextStyle(
+                                  color: AppColors.gray,
+                                  fontSize: 8,
+                                  fontWeight: FontWeight.w600,
+                                  height: 0,
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 3,
+                              ),
+                              Image.asset("assets/img/area.png"),
+                            ],
+                          )
+                        ]),
+                  ),
                 ],
               ),
             ),

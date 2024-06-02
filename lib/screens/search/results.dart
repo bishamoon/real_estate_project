@@ -18,9 +18,11 @@ class ResultsScreen extends StatefulWidget {
 
 class _ResultsScreenState extends State<ResultsScreen> {
   bool _isLoading = false;
-
+  List building = [];
   @override
   void initState() {
+    building = widget.searchResults;
+    print(building[0]);
     super.initState();
   }
 
@@ -102,19 +104,18 @@ class _ResultsScreenState extends State<ResultsScreen> {
                   );
                 },
                 itemBuilder: (BuildContext context, int index) {
-                  final building = widget.searchResults[index];
                   return nearByCard(
-                    houseName: building.name,
-                    area: building.buildingInfo.area,
-                    imgUrl: building.buildingInfo.photos[0],
-                    location: building.buildingInfo.map,
-                    price: building.cost,
-                    noBed: building.buildingInfo.numberRooms,
-                    noKitchen: building.buildingInfo.katchenNumber,
-                    noBath: building.buildingInfo.numberServers,
-                    type: building.typeBuild.name,
+                    houseName: building[index].name,
+                    area: building[index].buildingInfo.area,
+                    imgUrl: building[index].buildingInfo.photos[0],
+                    location: building[index].buildingInfo.map,
+                    price: building[index].cost,
+                    noBed: building[index].buildingInfo.numberRooms,
+                    noKitchen: building[index].buildingInfo.katchenNumber,
+                    noBath: building[index].buildingInfo.numberServers,
+                    type: building[index].typeBuild.name,
                     context: context,
-                    id: building.id,
+                    id: building[index].id,
                   );
                 },
               );

@@ -32,8 +32,8 @@ class _SearchScreenState extends State<SearchScreen> {
     'بناية',
     'ارض',
   ];
-  List<String> _places = ['baghdad', 'كرادة', 'زيونة', 'الجادرية', 'الاعظمية'];
-  String _selectedItemTown = "baghdad";
+  List<String> _places = ['baghdad', 'twon', 'erbil'];
+  String _selectedItemTown = "twon";
   bool _isRent = false;
 
   final List<DataBuildingModel> _allBuildings = [];
@@ -72,31 +72,24 @@ class _SearchScreenState extends State<SearchScreen> {
       final response = await HttpHelper.postData(
         url: EndPoints.getBuildingBySearch,
         body: {
-          // 'costFrom': int.parse(_costFromController.text.isEmpty
-          //     ? "1"
-          //     : _costFromController.text),
-          // 'costTo': int.parse(_costFromController.text.isEmpty
-          //     ? "1023240"
-          //     : _costFromController.text),
-          // 'areaFrom': int.parse(_areaFromController.text.isEmpty
-          //     ? "-12312"
-          //     : _areaFromController.text),
-          // 'areaTo': int.parse(
-          //     _areaToController.text.isEmpty ? "102230" : _areaToController.text),
-          // "town": "baghdad",
-          // "statuss": _isRent == 0 ? "sell" : "rent",
-          // "typebulid": type,
-          // "tiletype": "بورسلين"
-          // 'name': _searchController.text,
-                    'name': "مكتب",
-
-          "costFrom": 1,
-          "costTo": 1023240,
-          "areaFrom": -12312,
-          "areaTo": 102230,
-          "town": "baghdad",
-          "statuss": "rent",
-          "typebulid": "مكتب", "tiletype": "بورسلين"
+          'costFrom': int.parse(_costFromController.text),
+          'costTo': int.parse(_costToController.text),
+          'areaFrom': int.parse(_areaFromController.text),
+          'areaTo': int.parse(_areaToController.text),
+          "town": _selectedItemTown,
+          "statuss": _isRent == false ? "sell" : "rent",
+          "typebulid": type,
+          "tiletype": "رخام",
+          "name": _searchController.text,
+          // "name": "name",
+          // "costFrom": 1,
+          // "costTo": 1000,
+          // "areaFrom": -12312,
+          // "areaTo": 1000,
+          // "town": "twon",
+          // "statuss": "sell",
+          // "typebulid": "بيت",
+          // "tiletype": "رخام"
         },
       );
       print(response);
@@ -104,6 +97,12 @@ class _SearchScreenState extends State<SearchScreen> {
         _allBuildings.clear();
         final model = BuildingModel.fromJson(response);
         _allBuildings.addAll(model.data);
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => ResultsScreen(searchResults: _allBuildings),
+          ),
+        );
       } else {
         print("error $response");
       }
@@ -398,7 +397,7 @@ class _SearchScreenState extends State<SearchScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Text(
-                      'المنطقة',
+                      'المدينة',
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 16,
@@ -468,13 +467,6 @@ class _SearchScreenState extends State<SearchScreen> {
                           child: GestureDetector(
                             onTap: () {
                               getAllBuildingsBySearch();
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (_) => ResultsScreen(
-                                      searchResults: _allBuildings),
-                                ),
-                              );
                             },
                             child: Center(
                               child: Text(

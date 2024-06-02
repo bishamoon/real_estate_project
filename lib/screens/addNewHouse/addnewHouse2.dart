@@ -28,8 +28,8 @@ class _AddNewHouse2State extends State<AddNewHouse2> {
   TextEditingController mapController = TextEditingController(text: "url");
   TextEditingController _controllerImg1 =
       TextEditingController(text: "https://i.im.ge/2024/06/02/K0MeYC.d2.png");
-  TextEditingController _controllerImg2 =
-      TextEditingController(text: "https://i.im.ge/2024/06/02/K0MeYC.d2.png");
+  TextEditingController _controllerImg2 = TextEditingController(
+      text: "https://i.im.ge/2024/06/02/K07iPm.backiee-227050-landscape.jpeg");
   TextEditingController _controllerImg3 =
       TextEditingController(text: "https://i.im.ge/2024/06/02/K0MeYC.d2.png");
 
